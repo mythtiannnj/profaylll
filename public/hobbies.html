@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hobbies · Chris</title>
+  <link rel="icon" href="/assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/themes.css" />
+  <link rel="stylesheet" href="/assets/css/ui.css" />
+  <style>
+    .page-head {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .page-head h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .page-head p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .hobby-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.2rem;
+    }
+    @media (max-width: 700px) { .hobby-grid { grid-template-columns: 1fr; } }
+
+    .hobby-card {
+      padding: 1.6rem 1.5rem;
+      border-radius: var(--radius-lg);
+      display: flex;
+      gap: 1.1rem;
+      align-items: flex-start;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .hobby-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34, 211, 238, 0.35);
+      box-shadow: var(--shadow-card), 0 0 40px -12px rgba(34, 211, 238, 0.4);
+    }
+    .hobby-icon {
+      width: 58px; height: 58px;
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 14px;
+      font-size: 1.5rem;
+      border: 1px solid var(--border);
+    }
+    .hobby-cyan { color: var(--accent-cyan); background: rgba(34, 211, 238, 0.10); border-color: rgba(34, 211, 238, 0.3); }
+    .hobby-amber { color: var(--accent-amber); background: rgba(251, 191, 36, 0.10); border-color: rgba(251, 191, 36, 0.3); }
+    .hobby-purple { color: var(--accent-purple); background: rgba(167, 139, 250, 0.10); border-color: rgba(167, 139, 250, 0.3); }
+    .hobby-blue { color: var(--accent-blue); background: rgba(96, 165, 250, 0.10); border-color: rgba(96, 165, 250, 0.3); }
+
+    .hobby-body { flex: 1; min-width: 0; }
+    .hobby-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .hobby-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
+    }
+    .hobby-desc {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="ambient">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+  </div>
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-mark"><i class="fas fa-heart"></i></span>
+      <div class="brand-text"><span data-cfg="profile.name">Chris</span> <small>Hobbies</small></div>
+    </div>
+    <div class="topbar-right">
+      <div class="theme-toggle">
+        <button data-theme="dark" class="active"><i class="fas fa-circle-half-stroke"></i> Dark</button>
+        <button data-theme="glass"><i class="fas fa-droplet"></i> Glass</button>
+      </div>
+      <button class="icon-btn hamburger" id="hamburger-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path class="menu-line top-line" d="M4 6h16"/>
+          <path class="menu-line middle-line" d="M4 12h16"/>
+          <path class="menu-line bottom-line" d="M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="brand">
+        <span class="brand-mark"><i class="fas fa-user"></i></span>
+        <div><h2 data-cfg="profile.name">Chris</h2><small>Personal</small></div>
+      </div>
+      <button class="icon-btn" id="drawer-close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section-label">Navigate</div>
+      <nav class="drawer-nav">
+        <a href="/"><span class="nav-icon"><i class="fas fa-house"></i></span><span class="nav-label">Home <small>Welcome</small></span></a>
+        <a href="/profile"><span class="nav-icon"><i class="fas fa-id-badge"></i></span><span class="nav-label">Profile <small>About me</small></span></a>
+        <a href="/hobbies" class="active"><span class="nav-icon"><i class="fas fa-heart"></i></span><span class="nav-label">Hobbies <small>What I love</small></span></a>
+        <a href="/contact"><span class="nav-icon"><i class="fas fa-envelope"></i></span><span class="nav-label">Contact <small>Reach out</small></span></a>
+        <a href="/gallery"><span class="nav-icon"><i class="fas fa-images"></i></span><span class="nav-label">Gallery <small>Moments</small></span></a>
+      </nav>
+    </div>
+    <div class="drawer-footer"><span class="status-dot"></span> Online now</div>
+  </aside>
+
+  <div class="main-shell">
+    <div class="container" style="max-width:900px;">
+      <header class="page-head animate-reveal">
+        <h1><span class="brand-gradient-text">Things I Love</span></h1>
+        <p>Simple pleasures that keep me grounded — the four pillars of my everyday life.</p>
+      </header>
+
+      <section class="hobby-grid" id="hobby-grid">
+        <!-- Populated from config.json -->
+      </section>
+
+      <footer>
+        <p>© 2025 <span data-cfg="profile.name">Chris</span> · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i></p>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/config.js"></script>
+</body>
+</html>
