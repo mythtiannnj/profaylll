@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact · Chris</title>
+  <link rel="icon" href="/assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/themes.css" />
+  <link rel="stylesheet" href="/assets/css/ui.css" />
+  <style>
+    .page-head { text-align: center; margin-bottom: 2.5rem; }
+    .page-head h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .page-head p { color: var(--text-dim); font-size: 0.95rem; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
+
+    .contact-card {
+      padding: 1.5rem 1.5rem;
+      border-radius: var(--radius-lg);
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34, 211, 238, 0.35);
+      box-shadow: var(--shadow-card), 0 0 40px -12px rgba(34, 211, 238, 0.4);
+    }
+    .contact-icon {
+      width: 54px; height: 54px;
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 14px;
+      font-size: 1.4rem;
+    }
+    .contact-icon.gmail {
+      color: #ea4335;
+      background: rgba(234, 67, 53, 0.10);
+      border: 1px solid rgba(234, 67, 53, 0.3);
+    }
+    .contact-icon.phone {
+      color: var(--accent-emerald);
+      background: rgba(52, 211, 153, 0.10);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+    .contact-body { flex: 1; min-width: 0; }
+    .contact-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .contact-value {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      word-break: break-all;
+      line-height: 1.4;
+    }
+    .contact-actions {
+      display: flex;
+      gap: 0.35rem;
+      margin-top: 0.6rem;
+    }
+    .contact-actions a, .contact-actions button {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.7rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-2);
+      background: transparent;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .contact-actions a:hover, .contact-actions button:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(34, 211, 238, 0.5);
+      background: rgba(34, 211, 238, 0.08);
+    }
+
+    .info-strip {
+      padding: 1rem 1.2rem;
+      border-radius: var(--radius);
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+    .info-strip i { color: var(--accent-cyan); margin-top: 2px; }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="ambient">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+  </div>
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-mark"><i class="fas fa-envelope"></i></span>
+      <div class="brand-text"><span data-cfg="profile.name">Chris</span> <small>Contact</small></div>
+    </div>
+    <div class="topbar-right">
+      <div class="theme-toggle">
+        <button data-theme="dark" class="active"><i class="fas fa-circle-half-stroke"></i> Dark</button>
+        <button data-theme="glass"><i class="fas fa-droplet"></i> Glass</button>
+      </div>
+      <button class="icon-btn hamburger" id="hamburger-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path class="menu-line top-line" d="M4 6h16"/>
+          <path class="menu-line middle-line" d="M4 12h16"/>
+          <path class="menu-line bottom-line" d="M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="brand">
+        <span class="brand-mark"><i class="fas fa-user"></i></span>
+        <div><h2 data-cfg="profile.name">Chris</h2><small>Personal</small></div>
+      </div>
+      <button class="icon-btn" id="drawer-close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section-label">Navigate</div>
+      <nav class="drawer-nav">
+        <a href="/"><span class="nav-icon"><i class="fas fa-house"></i></span><span class="nav-label">Home <small>Welcome</small></span></a>
+        <a href="/profile"><span class="nav-icon"><i class="fas fa-id-badge"></i></span><span class="nav-label">Profile <small>About me</small></span></a>
+        <a href="/hobbies"><span class="nav-icon"><i class="fas fa-heart"></i></span><span class="nav-label">Hobbies <small>What I love</small></span></a>
+        <a href="/contact" class="active"><span class="nav-icon"><i class="fas fa-envelope"></i></span><span class="nav-label">Contact <small>Reach out</small></span></a>
+        <a href="/gallery"><span class="nav-icon"><i class="fas fa-images"></i></span><span class="nav-label">Gallery <small>Moments</small></span></a>
+      </nav>
+    </div>
+    <div class="drawer-footer"><span class="status-dot"></span> Online now</div>
+  </aside>
+
+  <div class="main-shell">
+    <div class="container" style="max-width:780px;">
+      <header class="page-head animate-reveal">
+        <h1><span class="brand-gradient-text">Get in Touch</span></h1>
+        <p>Got something to say? Want to chat about coffee, music, or life? I'm all ears.</p>
+      </header>
+
+      <div class="info-strip glass animate-reveal">
+        <i class="fas fa-circle-info"></i>
+        <span data-cfg="contact.availability">Open to chats, collabs, and coffee meetups.</span>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card glass animate-reveal" style="animation-delay:0.05s;">
+          <div class="contact-icon gmail"><i class="fas fa-envelope"></i></div>
+          <div class="contact-body">
+            <div class="contact-label">Gmail</div>
+            <div class="contact-value" data-cfg="contact.gmail">—</div>
+            <div class="contact-actions">
+              <a data-cfg-href="contact.gmail" href="#" onclick="event.preventDefault(); window.location.href='mailto:'+this.dataset.cfgHref;">
+                <i class="fas fa-paper-plane"></i> Send
+              </a>
+              <button data-copy="">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-card glass animate-reveal" style="animation-delay:0.1s;">
+          <div class="contact-icon phone"><i class="fas fa-phone"></i></div>
+          <div class="contact-body">
+            <div class="contact-label">Phone</div>
+            <div class="contact-value" data-cfg="contact.phoneDisplay">—</div>
+            <div class="contact-actions">
+              <a href="#" id="call-btn"><i class="fas fa-phone"></i> Call</a>
+              <button data-copy="">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-strip glass animate-reveal" style="animation-delay:0.15s;">
+        <i class="fas fa-clock"></i>
+        <span data-cfg="contact.hours">Usually replies within 24 hours.</span>
+      </div>
+
+      <footer>
+        <p>© 2025 <span data-cfg="profile.name">Chris</span> · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i></p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script>
+    // Populate copy buttons and call link once config loads
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const cfg = window.getConfig();
+        if (!cfg) return;
+
+        // Gmail copy
+        const gmailBtn = document.querySelector('.contact-card .gmail ~ .contact-body button[data-copy]');
+        if (gmailBtn) gmailBtn.dataset.copy = cfg.contact?.gmail || '';
+
+        // Phone copy
+        const phoneBtn = document.querySelector('.contact-card .phone ~ .contact-body button[data-copy]');
+        if (phoneBtn) phoneBtn.dataset.copy = cfg.contact?.phone || '';
+
+        // Call button
+        const callBtn = document.getElementById('call-btn');
+        if (callBtn && cfg.contact?.phone) callBtn.href = `tel:${cfg.contact.phone}`;
+      }, 500);
+    });
+  </script>
+</body>
+</html>
