@@ -51,56 +51,6 @@
       "tag": "Recovery mode"
     }
   ],
-  "music": {
-    "title": "Top Music",
-    "subtitle": "Songs I keep on repeat — Filipino pop, indie, and everything in between.",
-    "tracks": [
-      {
-        "title": "Habang Buhay",
-        "albumName": "Habang Buhay - Single",
-        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/51/81/b0/5181b05a-57c8-90d8-1c67-f9171b50ae25/21UM1IM08814.rgb.jpg/500x500bb.jpg",
-        "artistName": "Zack Tabudlo",
-        "genreNames": ["Pop"],
-        "durationInMillis": 244068,
-        "releaseDate": "2021-09-17",
-        "appleMusicUrl": "https://music.apple.com/us/album/habang-buhay/1584765204?i=1584765460&uo=4",
-        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c5/2e/5d/c52e5dd9-ed82-6c88-f877-19aeb68bd6e0/mzaf_15728837793475875565.plus.aac.p.m4a"
-      },
-      {
-        "title": "Misteryoso",
-        "albumName": "Misteryoso - Single",
-        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/64/2f/91/642f91e6-00a1-cb7c-7577-67c3f6a9d183/cover.jpg/500x500bb.jpg",
-        "artistName": "Cup of Joe",
-        "genreNames": ["Pop/Rock"],
-        "durationInMillis": 221642,
-        "releaseDate": "2024-05-17",
-        "appleMusicUrl": "https://music.apple.com/us/album/misteryoso/1745079175?i=1745079184&uo=4",
-        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/08/90/2f/08902f97-bf25-4aa6-8ddb-90446b53c8f9/mzaf_7798014635074100402.plus.aac.p.m4a"
-      },
-      {
-        "title": "Binibini",
-        "albumName": "Binibini - Single",
-        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/5b/6f/1b/5b6f1bd5-d0de-b26d-e584-54517791896c/21UMGIM17512.rgb.jpg/500x500bb.jpg",
-        "artistName": "Zack Tabudlo",
-        "genreNames": ["Pop"],
-        "durationInMillis": 221538,
-        "releaseDate": "2021-03-26",
-        "appleMusicUrl": "https://music.apple.com/us/album/binibini/1557994017?i=1557994025&uo=4",
-        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/86/08/d6/8608d608-aff2-c1bf-e01b-e79c15dd17ca/mzaf_4581587985426128560.plus.aac.p.m4a"
-      },
-      {
-        "title": "Bulong",
-        "albumName": "Bulong - Single",
-        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/59/48/5c/59485c4a-d61d-df0d-20a6-abc1075945a7/840092479694_Cover.jpg/500x500bb.jpg",
-        "artistName": "December Avenue",
-        "genreNames": ["Pop"],
-        "durationInMillis": 270233,
-        "releaseDate": "2018-04-08",
-        "appleMusicUrl": "https://music.apple.com/us/album/bulong/1649552085?i=1649552278&uo=4",
-        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/c8/41/96/c8419609-e366-37b9-0f01-70929b8db35e/mzaf_11414624220617958870.plus.aac.p.m4a"
-      }
-    ]
-  },
   "contact": {
     "gmail": "inchxnn@gmail.com",
     "phone": "09979939317",
