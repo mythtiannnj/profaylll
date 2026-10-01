@@ -1,0 +1,83 @@
+{
+  "site": {
+    "name": "Chris",
+    "tagline": "Just a guy who loves coffee, jogging, and guitars",
+    "version": "1.0.0",
+    "theme": {
+      "accent": "cyan",
+      "defaultTheme": "dark"
+    }
+  },
+  "profile": {
+    "name": "Chris",
+    "verified": true,
+    "avatar": "https://iili.io/nRjM60b.jpg",
+    "role": "Coffee Enthusiast · Runner · Guitarist",
+    "location": "Philippines",
+    "birthday": "1998",
+    "bio": "Hey, I'm Chris. I believe life is best lived slowly — one cup of coffee at a time, one long jog at sunrise, one song on a quiet evening. This little corner of the internet is where I share who I am, what I love, and how to reach me."
+  },
+  "hobbies": [
+    {
+      "id": "jogging",
+      "title": "Jogging",
+      "icon": "fa-person-running",
+      "color": "cyan",
+      "description": "Morning runs clear my head. There's nothing like hitting the pavement at 5 AM while the city is still asleep.",
+      "tag": "Daily ritual"
+    },
+    {
+      "id": "coffee",
+      "title": "Coffee",
+      "icon": "fa-mug-hot",
+      "color": "amber",
+      "description": "Black, pour-over, or espresso — I love them all. Coffee is less a drink and more a moment of stillness.",
+      "tag": "Fuel & focus"
+    },
+    {
+      "id": "guitar",
+      "title": "Guitar",
+      "icon": "fa-guitar",
+      "color": "purple",
+      "description": "Been playing since I was a teenager. Mostly indie, folk, and a bit of blues. It's my way of saying what words can't.",
+      "tag": "Since 2014"
+    },
+    {
+      "id": "sleep",
+      "title": "Sleep",
+      "icon": "fa-moon",
+      "color": "blue",
+      "description": "Underrated superpower. 8 hours, no excuses. The best ideas come after a good night's rest.",
+      "tag": "Recovery mode"
+    }
+  ],
+  "contact": {
+    "gmail": "inchxnn@gmail.com",
+    "phone": "09979939317",
+    "phoneDisplay": "+63 997 993 9317",
+    "whatsapp": "09979939317",
+    "telegram": "",
+    "location": "Philippines",
+    "availability": "Open to chats, collabs, and coffee meetups",
+    "hours": "Usually replies within 24 hours"
+  },
+  "gallery": {
+    "title": "Moments",
+    "subtitle": "Snapshots from my everyday life — runs, coffee, strings, sunsets.",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80", "caption": "Morning run", "tag": "jogging" },
+      { "url": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80", "caption": "Pour over", "tag": "coffee" },
+      { "url": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80", "caption": "Evening strings", "tag": "guitar" },
+      { "url": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80", "caption": "Slow mornings", "tag": "sleep" },
+      { "url": "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=800&q=80", "caption": "City trail", "tag": "jogging" },
+      { "url": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80", "caption": "First sip", "tag": "coffee" },
+      { "url": "https://images.unsplash.com/photo-1556449895-a33c9dba33dd?w=800&q=80", "caption": "Studio time", "tag": "guitar" },
+      { "url": "https://images.unsplash.com/photo-1520206183501-b80df61043c2?w=800&q=80", "caption": "Sunday nap", "tag": "sleep" }
+    ]
+  },
+  "socials": [
+    { "name": "GitHub", "url": "https://github.com", "icon": "fa-github" },
+    { "name": "Twitter", "url": "https://twitter.com", "icon": "fa-twitter" },
+    { "name": "Instagram", "url": "https://instagram.com", "icon": "fa-instagram" }
+  ]
+}
