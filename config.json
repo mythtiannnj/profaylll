@@ -13,9 +13,9 @@
     "verified": true,
     "avatar": "https://iili.io/nRjM60b.jpg",
     "role": "Coffee Enthusiast · Runner · Guitarist",
-    "location": "Philippines",
+    "location": "Burauen, Leyte, Philippines",
     "birthday": "1998",
-    "bio": "Hey, I'm Chris. I believe life is best lived slowly — one cup of coffee at a time, one long jog at sunrise, one song on a quiet evening. This little corner of the internet is where I share who I am, what I love, and how to reach me."
+    "bio": "Hey, I'm Known As Chris. I believe life is best lived slowly — one cup of coffee at a time, one long jog at sunrise, one song on a quiet evening. This little corner of the internet is where I share who I am, what I love, and how to reach me."
   },
   "hobbies": [
     {
@@ -24,7 +24,7 @@
       "icon": "fa-person-running",
       "color": "cyan",
       "description": "Morning runs clear my head. There's nothing like hitting the pavement at 5 AM while the city is still asleep.",
-      "tag": "Daily ritual"
+      "tag": "Weekend ritual"
     },
     {
       "id": "coffee",
@@ -40,7 +40,7 @@
       "icon": "fa-guitar",
       "color": "purple",
       "description": "Been playing since I was a teenager. Mostly indie, folk, and a bit of blues. It's my way of saying what words can't.",
-      "tag": "Since 2014"
+      "tag": "Since 2022"
     },
     {
       "id": "sleep",
@@ -65,6 +65,8 @@
     "title": "Moments",
     "subtitle": "Snapshots from my everyday life — runs, coffee, strings, sunsets.",
     "images": [
+         { "url"https://iili.io/nc9Q3sj.jpg", "caption": " Campus view", "tag": "random" },
+      { "url":
       { "url": "https://iili.io/nc9VAvt.jpg", "caption": "Afternoon", "tag": "activity" },
       { "url": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80", "caption": "Pour over", "tag": "coffee" },
       { "url": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80", "caption": "Evening strings", "tag": "guitar" },
