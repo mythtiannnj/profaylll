@@ -1,6 +1,6 @@
 {
   "site": {
-    "name": "Christian Corpez",
+    "name": "Chris",
     "tagline": "Just a guy who loves coffee, jogging, and guitars",
     "version": "1.0.0",
     "theme": {
@@ -9,12 +9,12 @@
     }
   },
   "profile": {
-    "name": "Chris",
+    "name": "Christian Corpez",
     "verified": true,
     "avatar": "https://iili.io/nRjM60b.jpg",
     "role": "Coffee Enthusiast · Runner · Guitarist",
-    "location": "Philippines",
-    "birthday": "1998",
+    "location": "Burauen, Leyte, Philippines",
+    "birthday": "2007",
     "bio": "Hey, I'm Known As Chris. I believe life is best lived slowly — one cup of coffee at a time, one long jog at sunrise, one song on a quiet evening. This little corner of the internet is where I share who I am, what I love, and how to reach me."
   },
   "hobbies": [
