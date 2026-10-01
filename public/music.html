@@ -15,7 +15,9 @@
   <link rel="stylesheet" href="/assets/css/themes.css" />
   <link rel="stylesheet" href="/assets/css/ui.css" />
   <style>
-    /* ---- Page head ---- */
+    /* ============================================================
+       Page head
+       ============================================================ */
     .page-head {
       text-align: center;
       margin-bottom: 2.5rem;
@@ -35,7 +37,9 @@
       line-height: 1.6;
     }
 
-    /* ---- Info note ---- */
+    /* ============================================================
+       Info note
+       ============================================================ */
     .music-info-note {
       display: flex;
       gap: 0.7rem;
@@ -49,9 +53,15 @@
       line-height: 1.5;
       margin-bottom: 1.8rem;
     }
-    .music-info-note i { color: var(--accent-cyan); flex-shrink: 0; margin-top: 2px; }
+    .music-info-note i {
+      color: var(--accent-cyan);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
 
-    /* ---- Music grid ---- */
+    /* ============================================================
+       Music grid
+       ============================================================ */
     .music-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -72,12 +82,16 @@
       box-shadow: var(--shadow-card), 0 0 40px -12px rgba(34, 211, 238, 0.4);
     }
 
+    /* ============================================================
+       Cover
+       ============================================================ */
     .music-cover {
       position: relative;
       width: 100%;
       aspect-ratio: 1 / 1;
       overflow: hidden;
       background: var(--panel-strong);
+      cursor: pointer;
     }
     .music-cover img {
       width: 100%;
@@ -85,17 +99,23 @@
       object-fit: cover;
       display: block;
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;   /* ← prevent img from swallowing clicks */
     }
-    .music-card:hover .music-cover img { transform: scale(1.06); }
+    .music-card:hover .music-cover img {
+      transform: scale(1.06);
+    }
 
+    /* Gradient overlay — pointer-events NONE so clicks pass through */
     .music-cover::after {
       content: '';
       position: absolute;
       inset: 0;
       background: linear-gradient(to top, rgba(7, 10, 18, 0.85) 0%, transparent 45%);
       pointer-events: none;
+      z-index: 1;
     }
 
+    /* Play button — sits ABOVE the overlay */
     .music-play {
       position: absolute;
       bottom: 14px;
@@ -113,15 +133,48 @@
       font-size: 1.1rem;
       box-shadow: 0 8px 24px -6px rgba(34, 211, 238, 0.7);
       transition: all var(--transition-fast);
-      z-index: 2;
+      z-index: 3;   /* ← above overlay (z-index:1) */
     }
     .music-play:hover {
       transform: scale(1.08);
       box-shadow: 0 12px 32px -6px rgba(34, 211, 238, 0.9);
     }
-    .music-play i { transition: transform 0.15s; }
-    .music-play.playing i { transform: scale(1.05); }
+    .music-play:active {
+      transform: scale(0.95);
+    }
+    .music-play i {
+      transition: transform 0.15s;
+      pointer-events: none;   /* ← let button handle the click */
+    }
 
+    /* Progress bar — sits on top of everything at the bottom of cover */
+    .music-progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .music-cover.playing .music-progress {
+      opacity: 1;
+    }
+    .music-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
+      transition: width 0.15s linear;
+    }
+
+    /* ============================================================
+       Body
+       ============================================================ */
     .music-body {
       padding: 1.2rem 1.3rem 1.4rem;
       display: flex;
@@ -148,7 +201,10 @@
       align-items: center;
       gap: 0.4rem;
     }
-    .music-artist i { font-size: 0.65rem; opacity: 0.7; }
+    .music-artist i {
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
     .music-album {
       font-size: 0.78rem;
       color: var(--text-muted);
@@ -168,8 +224,15 @@
       border-bottom: 1px solid var(--border);
       margin-bottom: 0.85rem;
     }
-    .music-meta span { display: inline-flex; align-items: center; gap: 0.35rem; }
-    .music-meta i { color: var(--accent-purple); font-size: 0.65rem; }
+    .music-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .music-meta i {
+      color: var(--accent-purple);
+      font-size: 0.65rem;
+    }
 
     .music-tags {
       display: flex;
@@ -220,37 +283,67 @@
       border-color: rgba(34, 211, 238, 0.5);
       background: rgba(34, 211, 238, 0.08);
     }
-
-    /* Progress bar */
-    .music-progress {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.1);
-      overflow: hidden;
-      z-index: 3;
-      opacity: 0;
-      transition: opacity 0.2s;
+    .music-link i {
+      pointer-events: none;
     }
-    .music-cover.playing .music-progress { opacity: 1; }
-    .music-progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-      box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
-      transition: width 0.15s linear;
+
+    /* Loading state — pulse the play button */
+    .music-play.loading {
+      animation: btn-pulse 1s ease-in-out infinite;
+    }
+    @keyframes btn-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ============================================================
+       Empty state (shown when no tracks in config)
+       ============================================================ */
+    .music-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 4rem 1.5rem;
+      border-radius: var(--radius-lg);
+      color: var(--text-muted);
+    }
+    .music-empty i {
+      font-size: 2.5rem;
+      color: var(--text-muted);
+      opacity: 0.4;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+    .music-empty p {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================================
+       Mobile tweaks
+       ============================================================ */
+    @media (max-width: 480px) {
+      .music-grid {
+        grid-template-columns: 1fr;
+      }
+      .music-play {
+        width: 46px;
+        height: 46px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body data-theme="dark">
+  <!-- Ambient background -->
   <div class="ambient">
     <div class="blob blob-cyan"></div>
     <div class="blob blob-purple"></div>
     <div class="blob blob-pink"></div>
   </div>
 
+  <!-- Topbar -->
   <div class="topbar">
     <div class="brand">
       <span class="brand-mark"><i class="fas fa-music"></i></span>
@@ -261,8 +354,12 @@
     </div>
     <div class="topbar-right">
       <div class="theme-toggle">
-        <button data-theme="dark" class="active"><i class="fas fa-circle-half-stroke"></i> Dark</button>
-        <button data-theme="glass"><i class="fas fa-droplet"></i> Glass</button>
+        <button data-theme="dark" class="active">
+          <i class="fas fa-circle-half-stroke"></i> Dark
+        </button>
+        <button data-theme="glass">
+          <i class="fas fa-droplet"></i> Glass
+        </button>
       </div>
       <button class="icon-btn hamburger" id="hamburger-btn" aria-label="Menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -274,6 +371,7 @@
     </div>
   </div>
 
+  <!-- Drawer -->
   <div class="drawer-overlay" id="drawer-overlay"></div>
   <aside class="drawer" id="drawer">
     <div class="drawer-header">
@@ -318,6 +416,7 @@
     <div class="drawer-footer"><span class="status-dot"></span> Online now</div>
   </aside>
 
+  <!-- Main -->
   <div class="main-shell">
     <div class="container" style="max-width:1100px;">
       <header class="page-head animate-reveal">
@@ -327,15 +426,22 @@
 
       <div class="music-info-note glass animate-reveal">
         <i class="fas fa-headphones"></i>
-        <span>Click the <b>play button</b> on any cover to hear a 30-second preview. Full tracks available on Apple Music.</span>
+        <span>
+          Click the <b>play button</b> on any cover to hear a 30-second preview.
+          Full tracks available on Apple Music.
+        </span>
       </div>
 
       <section class="music-grid" id="music-grid">
-        <!-- Populated from config.json by config.js -->
+        <!-- Populated by config.js -->
       </section>
 
       <footer>
-        <p>© <span id="year">2025</span> <span data-cfg="profile.name">Chris</span> · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i></p>
+        <p>
+          © <span id="year">2025</span>
+          <span data-cfg="profile.name">Chris</span>
+          · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i>
+        </p>
       </footer>
     </div>
   </div>
@@ -346,6 +452,7 @@
   <script src="/assets/js/menu.js"></script>
   <script src="/assets/js/config.js"></script>
   <script>
+    // Auto-update footer year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
