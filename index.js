@@ -45,6 +45,7 @@ const pages = {
   '/':          'index.html',
   '/profile':   'profile.html',
   '/hobbies':   'hobbies.html',
+  '/music':     'music.html',
   '/contact':   'contact.html',
   '/gallery':   'gallery.html',
 };
@@ -58,7 +59,7 @@ Object.entries(pages).forEach(([route, file]) => {
 });
 
 // ============================================================
-//  404 handler — MUST be after all routes
+//  404 handler
 // ============================================================
 app.use((req, res) => {
   if (req.path.startsWith('/api/')) {
@@ -76,7 +77,7 @@ app.use((req, res) => {
 });
 
 // ============================================================
-//  500 handler — MUST be last with 4 args
+//  500 handler
 // ============================================================
 app.use((err, req, res, next) => {
   console.error('Server error:', err.stack);
