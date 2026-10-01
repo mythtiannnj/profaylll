@@ -49,7 +49,7 @@
   // 1. Bindings — [data-cfg], [data-cfg-src], [data-cfg-href]
   // ------------------------------------------------------------
   function applyBindings() {
-    // Text / src / href based on tag name
+    // Text / src / href / value based on tag name
     document.querySelectorAll('[data-cfg]').forEach(el => {
       const val = getByPath(CFG, el.dataset.cfg);
       if (val == null) return;
@@ -157,7 +157,7 @@
   }
 
   // ------------------------------------------------------------
-  // 4. Music — cards + single shared audio player
+  // 4. Music — cards + single shared audio player (FIXED)
   // ------------------------------------------------------------
   function renderMusic() {
     const grid = document.getElementById('music-grid');
@@ -203,13 +203,15 @@
     `).join('');
 
     // ------------------------------------------------------------
-    // Single shared audio element — guarantees only one plays
+    // Shared audio element (FIXED: preload=auto, crossOrigin, load())
     // ------------------------------------------------------------
     const audio = new Audio();
-    audio.preload = 'none';
-    audio.volume = 0.75;
+    audio.preload = 'auto';
+    audio.volume = 0.85;
+    audio.crossOrigin = 'anonymous';
 
     let activeIndex = -1;
+    let playToken = 0; // guards against race conditions
 
     function setIcon(btn, iconClass) {
       const icon = btn?.querySelector('i');
@@ -221,7 +223,6 @@
         const idx = +btn.dataset.play;
         setIcon(btn, idx === playingIndex ? 'fa-pause' : 'fa-play');
       });
-      // Toggle 'playing' class on the cover for progress bar visibility
       grid.querySelectorAll('.music-cover').forEach((cover, i) => {
         cover.classList.toggle('playing', i === playingIndex);
       });
@@ -235,60 +236,91 @@
 
     function stopActive() {
       if (activeIndex === -1) return;
-      audio.pause();
+      try { audio.pause(); } catch {}
       activeIndex = -1;
       updateAllIcons(-1);
       resetProgress();
     }
 
+    // ------------------------------------------------------------
+    // Robust play: load(), wait for canplay, then play()
+    // ------------------------------------------------------------
     function playTrack(index) {
       const track = CFG.music.tracks[index];
-      if (!track || !track.previewUrl) return;
-
-      // Same track → toggle pause
-      if (activeIndex === index && !audio.paused) {
-        audio.pause();
-        updateAllIcons(-1);
-        activeIndex = -1;
+      if (!track || !track.previewUrl) {
+        console.warn('No preview URL for track', index);
         return;
       }
 
-      // Different track → load and play
+      // Toggle pause on same track
+      if (activeIndex === index && !audio.paused) {
+        audio.pause();
+        activeIndex = -1;
+        updateAllIcons(-1);
+        return;
+      }
+
+      // Stop previous
       stopActive();
-      audio.src = track.previewUrl;
+
+      // Guard against late events from earlier attempts
+      const token = ++playToken;
       activeIndex = index;
 
-      audio.play()
-        .then(() => {
-          updateAllIcons(index);
-        })
-        .catch(err => {
-          console.warn('Playback failed:', err);
-          activeIndex = -1;
-          updateAllIcons(-1);
-        });
+      // Point audio to new source and force load
+      audio.src = track.previewUrl;
+      audio.load();
+
+      // Show the "playing" state optimistically
+      updateAllIcons(index);
+
+      let started = false;
+
+      function attemptPlay() {
+        if (started || token !== playToken) return;
+        started = true;
+
+        const p = audio.play();
+        if (p && typeof p.then === 'function') {
+          p.then(() => {
+            if (token === playToken) updateAllIcons(index);
+          }).catch(err => {
+            console.warn('play() rejected:', err);
+            if (token === playToken) {
+              activeIndex = -1;
+              updateAllIcons(-1);
+              resetProgress();
+            }
+          });
+        }
+      }
+
+      // Prefer canplay, but fall back after 1.5s if event never fires
+      audio.addEventListener('canplay', attemptPlay, { once: true });
+      setTimeout(() => {
+        if (!started && token === playToken) attemptPlay();
+      }, 1500);
     }
 
-    // Progress bar update
+    // Progress bar
     audio.addEventListener('timeupdate', () => {
       if (activeIndex === -1) return;
-      const cover = grid.querySelector(`.music-card[data-index="${activeIndex}"] .music-cover`);
-      const bar = cover?.querySelector('.music-progress-bar');
-      if (bar && audio.duration) {
+      const card = grid.querySelector(`.music-card[data-index="${activeIndex}"]`);
+      const bar = card?.querySelector('.music-progress-bar');
+      if (bar && audio.duration && isFinite(audio.duration)) {
         const pct = (audio.currentTime / audio.duration) * 100;
         bar.style.width = `${pct}%`;
       }
     });
 
     audio.addEventListener('ended', () => {
-      const prev = activeIndex;
       activeIndex = -1;
       updateAllIcons(-1);
       resetProgress();
     });
 
     audio.addEventListener('error', () => {
-      console.warn('Audio error for track', activeIndex);
+      console.warn('Audio error for track', activeIndex, audio.error);
       activeIndex = -1;
       updateAllIcons(-1);
       resetProgress();
@@ -312,17 +344,27 @@
 
     // Clean up when leaving page
     window.addEventListener('beforeunload', () => {
-      audio.pause();
-      audio.src = '';
+      try { audio.pause(); audio.src = ''; } catch {}
     });
 
-    // Pause when tab is hidden
+    // Pause on tab switch
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && !audio.paused) {
         audio.pause();
-        updateAllIcons(-1);
         activeIndex = -1;
+        updateAllIcons(-1);
       }
+    });
+
+    // Debug helper — call debugAudio() in console
+    window.debugAudio = () => ({
+      src: audio.src,
+      paused: audio.paused,
+      duration: audio.duration,
+      currentTime: audio.currentTime,
+      readyState: audio.readyState,
+      error: audio.error,
+      activeIndex,
     });
 
     // Expose stop for other scripts
