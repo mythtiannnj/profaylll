@@ -9,13 +9,13 @@
     }
   },
   "profile": {
-    "name": "Chris",
+    "name": "Christian Corpez",
     "verified": true,
     "avatar": "https://iili.io/nRjM60b.jpg",
     "role": "Coffee Enthusiast · Runner · Guitarist",
     "location": "Burauen, Leyte, Philippines",
     "birthday": "1998",
-    "bio": "Hey, I'm Known As Chris. I believe life is best lived slowly — one cup of coffee at a time, one long jog at sunrise, one song on a quiet evening. This little corner of the internet is where I share who I am, what I love, and how to reach me."
+    "bio": "Hey, I'm Chris as a 1st Year BS Agriculture Major in Agricultural Extension. And i believe life is best lived slowly — one cup of coffee at a time, one long jog at sunrise, one song on a quiet evening. This little corner of the internet is where I share who I am, what I love, and how to reach me."
   },
   "hobbies": [
     {
@@ -67,13 +67,13 @@
     "images": [
       { "url": "https://iili.io/nc9Q3sj.jpg", "caption": "Afternoon", "tag": "activity" },
       { "url": "https://iili.io/nc9VAvt.jpg", "caption": "Afternoon", "tag": "activity" },
-      { "url": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80", "caption": "Pour over", "tag": "coffee" },
+      { "url": "https://iili.io/ncHEYzJ.jpg", "caption": "morning", "tag": "school" },
       { "url": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=800&q=80", "caption": "Evening strings", "tag": "guitar" },
       { "url": "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?w=800&q=80", "caption": "Slow mornings", "tag": "sleep" },
-      { "url": "https://images.unsplash.com/photo-1502904550040-7534597429ae?w=800&q=80", "caption": "City trail", "tag": "jogging" },
+      { "url": "https://iili.io/ncHlMJe.jpg", "caption": "night", "tag": "jogging" },
       { "url": "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=800&q=80", "caption": "First sip", "tag": "coffee" },
       { "url": "https://images.unsplash.com/photo-1556449895-a33c9dba33dd?w=800&q=80", "caption": "Studio time", "tag": "guitar" },
-      { "url": "https://images.unsplash.com/photo-1520206183501-b80df61043c2?w=800&q=80", "caption": "Sunday nap", "tag": "sleep" }
+      { "url": "https://images.unsplash.com/photo-1520206183501-b80df61043c2?w=800&q=80", "caption": "Sunday nap", "tag": "sleep" }o
     ]
   },
   "socials": [
