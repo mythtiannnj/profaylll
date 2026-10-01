@@ -1,0 +1,16 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "description": "Personal profile website — glassmorphism UI",
+  "main": "index.js",
+  "engines": { "node": ">=18.x" },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "author": "Chris",
+  "license": "MIT"
+}
