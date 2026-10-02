@@ -171,88 +171,154 @@ app.get('/api/agriculture-fact', (req, res) => {
 
 // ============================================================
 //  Image Upload API — axios + form-data
-//  Accepts JSON: { image: "data:image/png;base64,..." }
-//  Returns: { success, url, thumb, display, deleteUrl, width, height, size, filename }
+//  Accepts JSON:
+//    { image: "data:image/png;base64,..." }   → upload file (base64)
+//    { url:   "https://example.com/pic.jpg" } → upload from URL
+//  Returns flattened image info + all freeimage.host URLs
 // ============================================================
 app.post('/api/upload', express.json({ limit: '15mb' }), async (req, res) => {
-  const { image } = req.body || {};
+  const { image, url } = req.body || {};
 
-  if (!image || typeof image !== 'string') {
-    return res.status(400).json({ success: false, error: 'No image data provided' });
+  if (!image && !url) {
+    return res.status(400).json({
+      success: false,
+      error: 'Provide either "image" (base64 data URL) or "url" (remote image URL)',
+    });
   }
 
-  // Must be a base64 data URL
-  const match = image.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-  if (!match) {
-    return res.status(400).json({ success: false, error: 'Invalid image format. Expected a base64 data URL.' });
-  }
-
-  const mimeType = match[1];
-  const base64Data = match[2];
-  const buffer = Buffer.from(base64Data, 'base64');
-
-  // Safety: reject anything over ~10 MB
-  if (buffer.length > 10 * 1024 * 1024) {
-    return res.status(413).json({ success: false, error: 'Image too large (max 10 MB)' });
-  }
-
-  // Pick a sane filename + extension
-  const ext = mimeType.split('/')[1].replace('jpeg', 'jpg');
-  const filename = `upload-${Date.now()}.${ext}`;
+  const API_KEY = '6d207e02198a847aa98d0a2a901485a5';
+  const ENDPOINT = 'https://freeimage.host/api/1/upload/';
 
   try {
-    const form = new FormData();
-
-    form.append('key', '6d207e02198a847aa98d0a2a901485a5');
-    form.append('action', 'upload');
-    form.append('format', 'json');
-    form.append('source', buffer, {
-      filename,
-      contentType: mimeType,
-    });
-
-    const response = await axios.post(
-      'https://freeimage.host/api/1/upload/',
-      form,
-      {
-        headers: {
-          ...form.getHeaders(),
-        },
-        maxBodyLength: Infinity,
-        maxContentLength: Infinity,
-        timeout: 30000,
+    // --------------------------------------------
+    // Case A: Upload from a remote URL
+    // --------------------------------------------
+    if (url) {
+      if (!/^https?:\/\//i.test(url)) {
+        return res.status(400).json({ success: false, error: 'Invalid URL' });
       }
-    );
 
-    const data = response.data;
+      const form = new FormData();
+      form.append('key', API_KEY);
+      form.append('action', 'upload');
+      form.append('format', 'json');
+      form.append('source', url);
 
-    if (!data || !data.image) {
-      return res.status(502).json({
+      const response = await axios.post(ENDPOINT, form, {
+        headers: form.getHeaders(),
+        timeout: 30000,
+      });
+
+      return res.json(normalizeUpload(response.data));
+    }
+
+    // --------------------------------------------
+    // Case B: Upload a base64 data URL (file from browser)
+    // --------------------------------------------
+    const match = image.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+    if (!match) {
+      return res.status(400).json({
         success: false,
-        error: data?.error?.message || 'Upload failed on freeimage.host',
+        error: 'Invalid image format. Expected a base64 data URL.',
       });
     }
 
-    res.json({
-      success: true,
-      url: data.image.url,
-      thumb: data.image.thumb?.url || data.image.url,
-      display: data.image.display_url || data.image.url,
-      deleteUrl: data.image.delete_url || '',
-      width: data.image.width,
-      height: data.image.height,
-      size: data.image.size,
-      filename: data.image.filename || filename,
+    const mimeType = match[1];
+    const base64Data = match[2];
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    if (buffer.length > 10 * 1024 * 1024) {
+      return res.status(413).json({ success: false, error: 'Image too large (max 10 MB)' });
+    }
+
+    const ext = mimeType.split('/')[1].replace('jpeg', 'jpg');
+    const filename = `upload-${Date.now()}.${ext}`;
+
+    const form = new FormData();
+    form.append('key', API_KEY);
+    form.append('action', 'upload');
+    form.append('format', 'json');
+    form.append('source', buffer, { filename, contentType: mimeType });
+
+    const response = await axios.post(ENDPOINT, form, {
+      headers: form.getHeaders(),
+      maxBodyLength: Infinity,
+      maxContentLength: Infinity,
+      timeout: 30000,
     });
+
+    return res.json(normalizeUpload(response.data));
+
   } catch (error) {
     console.error('Upload error:', error.message);
     const upstream = error.response?.data;
-    res.status(error.response?.status || 500).json({
+
+    return res.status(error.response?.status || 500).json({
       success: false,
-      error: upstream?.error?.message || error.message || 'Upload failed',
+      error:
+        upstream?.error?.message ||
+        upstream?.status_txt ||
+        error.message ||
+        'Upload failed',
+      details: upstream || null,
     });
   }
 });
+
+// ============================================================
+//  Normalize freeimage.host response for the frontend
+// ============================================================
+function normalizeUpload(data) {
+  // Detect failure
+  if (!data || data.status_code !== 200 || !data.image) {
+    return {
+      success: false,
+      error: data?.error?.message || data?.status_txt || 'Upload failed',
+      raw: data || null,
+    };
+  }
+
+  const img = data.image;
+
+  return {
+    success: true,
+
+    // Core
+    id: img.id_encoded,
+    filename: img.filename,
+    originalFilename: img.original_filename,
+    mime: img.mime,
+    extension: img.extension,
+
+    // Dimensions & size
+    width: img.width,
+    height: img.height,
+    size: img.size,
+    sizeFormatted: img.size_formatted,
+    ratio: img.ratio,
+
+    // Dates
+    date: img.date,
+    dateGmt: img.date_gmt,
+
+    // URLs
+    url: img.url,                             // direct full-res
+    viewerUrl: img.url_viewer,                // viewer page
+    displayUrl: img.display_url,              // medium-size display
+    thumbUrl: img.thumb?.url || img.url,      // 160px thumb
+    mediumUrl: img.medium?.url || img.url,    // 500px medium
+    deleteUrl: img.delete_url || '',          // some API versions return this
+
+    // Meta
+    views: img.views,
+    nsfw: img.nsfw,
+    md5: img.md5,
+    storage: img.storage,
+
+    // Raw response passthrough
+    raw: data,
+  };
+}
 
 // ============================================================
 //  Page routes
