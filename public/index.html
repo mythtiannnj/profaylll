@@ -22,7 +22,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 3rem 1.5rem;
+      padding: 3rem 1.5rem 1rem;
       position: relative;
     }
     .hero-inner {
@@ -31,7 +31,6 @@
       position: relative;
     }
 
-    /* Greeting chip */
     .greeting-chip {
       display: inline-flex;
       align-items: center;
@@ -61,7 +60,6 @@
       50% { opacity: 0.4; }
     }
 
-    /* Avatar */
     .hero-avatar-wrap {
       display: flex;
       justify-content: center;
@@ -89,7 +87,6 @@
       background: #0d1422;
     }
 
-    /* Headline */
     .hero h1 {
       font-family: var(--font-serif);
       font-size: clamp(2.4rem, 6vw, 4.2rem);
@@ -109,7 +106,6 @@
       20%, 40% { transform: rotate(-8deg); }
     }
 
-    /* Sub */
     .hero-sub {
       font-size: clamp(0.95rem, 1.4vw, 1.1rem);
       color: var(--text-dim);
@@ -118,7 +114,6 @@
       line-height: 1.7;
     }
 
-    /* Live clock */
     .hero-clock {
       display: inline-flex;
       align-items: center;
@@ -138,7 +133,6 @@
       font-size: 0.7rem;
     }
 
-    /* Actions */
     .hero-actions {
       display: flex;
       gap: 0.9rem;
@@ -147,7 +141,6 @@
       margin-bottom: 3rem;
     }
 
-    /* Feature tiles */
     .hero-features {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -189,10 +182,160 @@
       .hero-avatar-inner img { width: 80px; height: 80px; }
     }
 
+    /* ============================================================
+       Dashboard Section
+       ============================================================ */
+    .dashboard-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 3rem;
+    }
+
+    .dashboard-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .dashboard-head .title {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .dashboard-head .title::before {
+      content: '';
+      width: 22px;
+      height: 1px;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 6px var(--accent-cyan);
+    }
+    .dashboard-head .refresh-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .dashboard-head .refresh-btn:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(34, 211, 238, 0.45);
+      background: rgba(34, 211, 238, 0.08);
+    }
+    .dashboard-head .refresh-btn.spinning i {
+      animation: spin 0.8s linear infinite;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.9rem;
+    }
+
+    .dash-tile {
+      padding: 1.1rem 1.2rem;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      transition: all var(--transition);
+    }
+    .dash-tile:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34, 211, 238, 0.3);
+      box-shadow: var(--shadow-card), 0 0 30px -12px rgba(34, 211, 238, 0.4);
+    }
+
+    .dash-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      font-size: 1rem;
+    }
+    .dash-icon.cyan    { color: var(--accent-cyan);    background: rgba(34, 211, 238, 0.10);  border-color: rgba(34, 211, 238, 0.30); }
+    .dash-icon.purple  { color: var(--accent-purple);  background: rgba(167, 139, 250, 0.10); border-color: rgba(167, 139, 250, 0.30); }
+    .dash-icon.emerald { color: var(--accent-emerald); background: rgba(52, 211, 153, 0.10);  border-color: rgba(52, 211, 153, 0.30); }
+    .dash-icon.amber   { color: var(--accent-amber);   background: rgba(251, 191, 36, 0.10);  border-color: rgba(251, 191, 36, 0.30); }
+
+    .dash-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .dash-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .dash-value {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .dash-value.small {
+      font-size: 0.72rem;
+      line-height: 1.5;
+      max-height: 4.5em;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    /* Battery bar */
+    .battery-bar {
+      margin-top: 0.5rem;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+    .battery-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-emerald), var(--accent-cyan));
+      box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
+      transition: width 0.5s ease;
+    }
+    .battery-bar-fill.low {
+      background: linear-gradient(90deg, var(--accent-rose), var(--accent-amber));
+      box-shadow: 0 0 12px rgba(251, 113, 133, 0.6);
+    }
+
     /* Footer */
     footer {
       text-align: center;
-      margin-top: 2rem;
+      margin-top: 1rem;
       padding-top: 1.6rem;
       border-top: 1px solid var(--border);
       font-size: 0.78rem;
@@ -283,16 +426,14 @@
 
   <!-- Main -->
   <div class="main-shell">
+    <!-- HERO -->
     <section class="hero">
       <div class="hero-inner">
-
-        <!-- Greeting chip -->
         <div class="greeting-chip animate-reveal">
           <span class="dot"></span>
           <span id="greeting-text">Welcome</span>
         </div>
 
-        <!-- Avatar -->
         <div class="hero-avatar-wrap animate-reveal" style="animation-delay:0.05s;">
           <div class="hero-avatar-ring">
             <div class="hero-avatar-inner">
@@ -301,25 +442,21 @@
           </div>
         </div>
 
-        <!-- Headline -->
         <h1 class="animate-reveal" style="animation-delay:0.1s;">
           <span class="brand-gradient-text">
             Hi, I'm <span data-cfg="profile.name">Chris</span> <span class="wave">👋</span>
           </span>
         </h1>
 
-        <!-- Sub -->
         <p class="hero-sub animate-reveal" style="animation-delay:0.15s;" data-cfg="site.tagline">
           Welcome to my corner of the internet.
         </p>
 
-        <!-- Live clock -->
         <div class="hero-clock animate-reveal" style="animation-delay:0.2s;">
           <i class="fas fa-clock"></i>
           <span id="live-clock">—</span>
         </div>
 
-        <!-- Actions -->
         <div class="hero-actions animate-reveal" style="animation-delay:0.25s;">
           <a href="/profile" class="btn btn-primary">
             <i class="fas fa-user"></i> About Me
@@ -329,7 +466,6 @@
           </a>
         </div>
 
-        <!-- Feature tiles (4 hobbies) -->
         <div class="hero-features animate-reveal" style="animation-delay:0.3s;">
           <a href="/hobbies" class="feature glass">
             <i class="fas fa-person-running"></i>
@@ -348,7 +484,57 @@
             <div class="lbl">Sleep</div>
           </a>
         </div>
+      </div>
+    </section>
 
+    <!-- DASHBOARD -->
+    <section class="dashboard-section animate-reveal" style="animation-delay:0.4s;">
+      <div class="dashboard-head">
+        <div class="title">Dashboard</div>
+        <button class="refresh-btn" id="dash-refresh" title="Refresh metrics">
+          <i class="fas fa-rotate"></i> Refresh
+        </button>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Battery -->
+        <div class="dash-tile glass">
+          <div class="dash-icon emerald"><i class="fas fa-battery-three-quarters"></i></div>
+          <div class="dash-body">
+            <div class="dash-label">Battery Health</div>
+            <div class="dash-value" id="dash-battery">Loading…</div>
+            <div class="battery-bar">
+              <div class="battery-bar-fill" id="dash-battery-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IP Address -->
+        <div class="dash-tile glass">
+          <div class="dash-icon cyan"><i class="fas fa-network-wired"></i></div>
+          <div class="dash-body">
+            <div class="dash-label">IP Address</div>
+            <div class="dash-value" id="dash-ip">Loading…</div>
+          </div>
+        </div>
+
+        <!-- User Agent -->
+        <div class="dash-tile glass">
+          <div class="dash-icon purple"><i class="fas fa-globe"></i></div>
+          <div class="dash-body">
+            <div class="dash-label">User Agent</div>
+            <div class="dash-value small" id="dash-ua">Loading…</div>
+          </div>
+        </div>
+
+        <!-- Engine Structure -->
+        <div class="dash-tile glass">
+          <div class="dash-icon amber"><i class="fas fa-microchip"></i></div>
+          <div class="dash-body">
+            <div class="dash-label">Engine Structure</div>
+            <div class="dash-value" id="dash-engine">Loading…</div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -365,26 +551,29 @@
   <script src="/assets/js/menu.js"></script>
   <script src="/assets/js/config.js"></script>
   <script>
-    // ---- Live clock (updates every second) ----
+    // ============================================================
+    // Live clock
+    // ============================================================
     function tick() {
       const el = document.getElementById('live-clock');
-      if (el) {
-        const now = new Date();
-        el.textContent = now.toLocaleString('en-US', {
-          weekday: 'short',
-          month: 'short',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: true
-        });
-      }
+      if (!el) return;
+      const now = new Date();
+      el.textContent = now.toLocaleString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
     }
     setInterval(tick, 1000);
     tick();
 
-    // ---- Time-aware greeting ----
+    // ============================================================
+    // Time-aware greeting
+    // ============================================================
     function updateGreeting() {
       const el = document.getElementById('greeting-text');
       if (!el) return;
@@ -400,9 +589,106 @@
     updateGreeting();
     setInterval(updateGreeting, 60000);
 
-    // ---- Auto year ----
+    // ============================================================
+    // Auto year
+    // ============================================================
     const y = document.getElementById('year');
     if (y) y.textContent = new Date().getFullYear();
+
+    // ============================================================
+    // Dashboard metrics
+    // ============================================================
+    const dashBattery = document.getElementById('dash-battery');
+    const dashBatteryFill = document.getElementById('dash-battery-fill');
+    const dashIP = document.getElementById('dash-ip');
+    const dashUA = document.getElementById('dash-ua');
+    const dashEngine = document.getElementById('dash-engine');
+    const refreshBtn = document.getElementById('dash-refresh');
+
+    // --- Battery ---
+    async function loadBattery() {
+      if (!dashBattery) return;
+      if (!('getBattery' in navigator)) {
+        dashBattery.textContent = 'Not supported';
+        if (dashBatteryFill) dashBatteryFill.style.width = '0%';
+        return;
+      }
+      try {
+        const b = await navigator.getBattery();
+
+        function render() {
+          const pct = Math.round(b.level * 100);
+          const charging = b.charging;
+          dashBattery.textContent = `${pct}% · ${charging ? 'Charging' : 'Discharging'}`;
+
+          if (dashBatteryFill) {
+            dashBatteryFill.style.width = pct + '%';
+            dashBatteryFill.classList.toggle('low', pct <= 20 && !charging);
+          }
+        }
+
+        render();
+        b.addEventListener('levelchange', render);
+        b.addEventListener('chargingchange', render);
+      } catch (e) {
+        dashBattery.textContent = 'Unavailable';
+      }
+    }
+
+    // --- IP Address ---
+    async function loadIP() {
+      if (!dashIP) return;
+      dashIP.textContent = 'Fetching…';
+      try {
+        const r = await fetch('https://api.ipify.org?format=json');
+        const d = await r.json();
+        dashIP.textContent = d.ip || 'Unknown';
+      } catch (e) {
+        dashIP.textContent = 'Loopback / Local';
+      }
+    }
+
+    // --- User Agent ---
+    function loadUA() {
+      if (!dashUA) return;
+      const ua = navigator.userAgent || 'Unknown';
+      dashUA.textContent = ua;
+      dashUA.title = ua; // full text on hover
+    }
+
+    // --- Engine Structure ---
+    function loadEngine() {
+      if (!dashEngine) return;
+      const scripts = document.querySelectorAll('script[src]').length;
+      const styles  = document.querySelectorAll('link[rel="stylesheet"]').length;
+      const pages   = 6; // home, profile, hobbies, contact, gallery, 404/500
+      dashEngine.textContent = `${pages} Pages · ${scripts} JS · ${styles} CSS`;
+    }
+
+    // --- Refresh all ---
+    async function refreshDashboard(animate) {
+      if (animate && refreshBtn) {
+        refreshBtn.classList.add('spinning');
+        setTimeout(() => refreshBtn.classList.remove('spinning'), 800);
+      }
+      await Promise.all([loadBattery(), loadIP()]);
+      loadUA();
+      loadEngine();
+    }
+
+    // Initial load
+    refreshDashboard(false);
+
+    // Manual refresh
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => refreshDashboard(true));
+    }
+
+    // Auto-refresh IP + battery every 60 seconds
+    setInterval(() => {
+      loadBattery();
+      loadIP();
+    }, 60000);
   </script>
 </body>
 </html>
