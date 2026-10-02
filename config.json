@@ -51,6 +51,30 @@
       "tag": "Recovery mode"
     }
   ],
+  "education": {
+    "title": "Education",
+    "subtitle": "My academic journey — from curiosity to cultivation.",
+    "current": {
+      "school": "Eastern Visayas State University - Burauen Campus",
+      "schoolShort": "EVSU - Burauen",
+      "logo": "https://iili.io/CCgmBup.jpg",
+      "program": "Bachelor of Science in Agriculture",
+      "major": "Major in Agricultural Extension",
+      "year": "1st Year",
+      "status": "Currently Enrolled",
+      "startYear": "2026",
+      "expectedGraduation": "2030",
+      "location": "Burauen, Leyte, Philippines",
+      "description": "Pursuing a degree in agriculture with a focus on agricultural extension — the science of helping farmers adopt better practices through education, communication, and community engagement.",
+      "focus": [
+        "Crop Science & Soil Management",
+        "Agricultural Extension Methods",
+        "Rural Community Development",
+        "Farm Management & Economics",
+        "Sustainable Agriculture"
+      ]
+    }
+  },
   "contact": {
     "gmail": "inchxnn@gmail.com",
     "phone": "09979939317",
