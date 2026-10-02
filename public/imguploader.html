@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Image Uploader · Chris</title>
   <meta name="description" content="Upload images and get a hosted URL instantly." />
+  <meta name="theme-color" content="#070a12" />
   <link rel="icon" href="/assets/img/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +15,7 @@
   <link rel="stylesheet" href="/assets/css/themes.css" />
   <link rel="stylesheet" href="/assets/css/ui.css" />
   <style>
-    .page-head { text-align: center; margin-bottom: 2.5rem; }
+    .page-head { text-align: center; margin-bottom: 2.2rem; }
     .page-head h1 {
       font-family: var(--font-serif);
       font-size: clamp(2.2rem, 5vw, 3.2rem);
@@ -34,15 +35,13 @@
     .tabs {
       display: flex;
       justify-content: center;
-      gap: 0.4rem;
-      margin-bottom: 1.8rem;
+      gap: 0.35rem;
+      margin: 0 auto 1.8rem;
       padding: 4px;
       border-radius: 999px;
       background: var(--panel-soft);
       border: 1px solid var(--border);
       width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
     }
     .tab-btn {
       padding: 0.55rem 1.1rem;
@@ -109,11 +108,7 @@
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .dropzone:hover i.main-icon { transform: translateY(-4px) scale(1.08); }
-    .dropzone .dz-title {
-      font-size: 0.98rem;
-      font-weight: 600;
-      color: var(--text);
-    }
+    .dropzone .dz-title { font-size: 0.98rem; font-weight: 600; color: var(--text); }
     .dropzone .dz-sub {
       font-family: var(--font-mono);
       font-size: 0.65rem;
@@ -122,7 +117,7 @@
       margin-top: 0.2rem;
     }
 
-    /* Preview inside dropzone */
+    /* Preview */
     .preview-wrap {
       display: none;
       width: 100%;
@@ -168,7 +163,7 @@
     }
     .preview-clear:hover { background: rgba(251, 113, 133, 0.2); }
 
-    /* ---- URL panel ---- */
+    /* URL panel */
     .url-panel { display: none; }
     .url-panel.active { display: block; }
     .url-input-wrap {
@@ -203,13 +198,9 @@
       border-color: rgba(34, 211, 238, 0.5);
       box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
     }
-    .url-hint {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
+    .url-hint { font-size: 0.75rem; color: var(--text-muted); line-height: 1.5; }
 
-    /* ---- Result panel ---- */
+    /* Result panel */
     .result-panel {
       padding: 1.4rem 1.5rem;
       border-radius: var(--radius-lg);
@@ -230,11 +221,7 @@
       display: block;
     }
 
-    .url-box {
-      display: flex;
-      gap: 0.5rem;
-      align-items: stretch;
-    }
+    .url-box { display: flex; gap: 0.5rem; align-items: stretch; }
     .url-box input {
       flex: 1;
       padding: 0.75rem 1rem;
@@ -255,7 +242,7 @@
       box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.08);
     }
     .url-box button {
-      padding: 0.75rem 1rem;
+      padding: 0.75rem 0.9rem;
       border-radius: 10px;
       border: 1px solid var(--border-2);
       background: var(--panel-soft);
@@ -307,6 +294,23 @@
       word-break: break-word;
     }
 
+    /* Result preview thumbnail */
+    .result-thumb {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #0d1422;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    .result-thumb img {
+      width: 100%;
+      height: auto;
+      max-height: 220px;
+      object-fit: contain;
+      display: block;
+    }
+
     .empty-result {
       text-align: center;
       padding: 3rem 1.2rem;
@@ -324,11 +328,7 @@
       margin-bottom: 0.7rem;
     }
 
-    .upload-btn {
-      width: 100%;
-      justify-content: center;
-      margin-top: 1rem;
-    }
+    .upload-btn { width: 100%; justify-content: center; margin-top: 1rem; }
     .upload-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .spinner {
@@ -355,7 +355,7 @@
       width: 0%;
       background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
       box-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
-      transition: width 0.3s ease;
+      transition: width 0.4s ease;
     }
 
     .error-box {
@@ -369,6 +369,7 @@
       margin-top: 1rem;
       display: none;
       word-break: break-word;
+      line-height: 1.5;
     }
     .error-box.show { display: block; }
   </style>
@@ -436,7 +437,7 @@
     <div class="container" style="max-width:1000px;">
       <header class="page-head animate-reveal">
         <h1><span class="brand-gradient-text">Image Uploader</span></h1>
-        <p>Upload a file or paste a URL — get back a hosted direct link, thumbnail, and medium-size URLs.</p>
+        <p>Upload a file or paste a URL — get back a hosted image link instantly.</p>
       </header>
 
       <!-- Tabs -->
@@ -479,15 +480,15 @@
               <label for="remote-url">Remote image URL</label>
               <input type="url" id="remote-url" placeholder="https://example.com/photo.jpg" />
               <p class="url-hint">
-                Paste a direct link to a PNG, JPG, WEBP, or GIF. The server will fetch it and upload it to freeimage.host.
+                Paste a direct link to a PNG, JPG, WEBP, or GIF. The server will fetch it and re-host it for you.
               </p>
             </div>
           </div>
 
-          <button id="upload-btn" class="btn btn-primary upload-btn">
+          <button id="upload-btn" class="btn btn-primary upload-btn" disabled>
             <span class="spinner" id="upload-spinner"></span>
             <i class="fas fa-upload"></i>
-            <span id="upload-label">Upload</span>
+            <span id="upload-label">Upload File</span>
           </button>
 
           <div class="progress-bar" id="progress-bar">
@@ -501,41 +502,30 @@
         <section class="result-panel glass animate-reveal" style="animation-delay:0.15s;">
           <div class="empty-result" id="empty-result">
             <i class="fas fa-link"></i>
-            Hosted URLs will appear here after upload.
+            Hosted URL will appear here after upload.
           </div>
 
           <div id="result-content" style="display:none;">
+            <div class="result-thumb">
+              <img id="result-img" src="" alt="Uploaded" />
+            </div>
+
             <span class="url-label">Direct URL (full size)</span>
             <div class="url-box">
               <input type="text" id="direct-url" readonly />
               <button id="copy-direct" title="Copy"><i class="fas fa-copy"></i></button>
             </div>
 
-            <span class="url-label" style="margin-top:1rem;">Thumbnail URL (160px)</span>
+            <span class="url-label" style="margin-top:1rem;">Display URL (medium)</span>
             <div class="url-box">
-              <input type="text" id="thumb-url" readonly />
-              <button id="copy-thumb" title="Copy"><i class="fas fa-copy"></i></button>
+              <input type="text" id="display-url" readonly />
+              <button id="copy-display" title="Copy"><i class="fas fa-copy"></i></button>
             </div>
 
-            <span class="url-label" style="margin-top:1rem;">Medium URL (500px)</span>
-            <div class="url-box">
-              <input type="text" id="medium-url" readonly />
-              <button id="copy-medium" title="Copy"><i class="fas fa-copy"></i></button>
-            </div>
-
-            <span class="url-label" style="margin-top:1rem;">Viewer Page</span>
-            <div class="url-box">
-              <input type="text" id="viewer-url" readonly />
-              <button id="copy-viewer" title="Copy"><i class="fas fa-copy"></i></button>
-            </div>
-
-            <div class="meta-list" id="meta-list">
-              <div class="meta-item"><div class="k">Dimensions</div><div class="v" id="m-dims">—</div></div>
+            <div class="meta-list" style="margin-top:1rem;">
               <div class="meta-item"><div class="k">Size</div><div class="v" id="m-size">—</div></div>
               <div class="meta-item"><div class="k">Type</div><div class="v" id="m-type">—</div></div>
-              <div class="meta-item"><div class="k">Filename</div><div class="v" id="m-name">—</div></div>
-              <div class="meta-item" style="grid-column:1 / -1;"><div class="k">MD5</div><div class="v" id="m-md5">—</div></div>
-              <div class="meta-item" style="grid-column:1 / -1;"><div class="k">Uploaded</div><div class="v" id="m-date">—</div></div>
+              <div class="meta-item" style="grid-column:1 / -1;"><div class="k">Filename</div><div class="v" id="m-name">—</div></div>
             </div>
 
             <a id="view-link" href="#" target="_blank" rel="noopener" class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:1rem;">
@@ -549,7 +539,7 @@
         <p>
           © <span id="year">2026</span>
           <span data-cfg="profile.name">Chris</span>
-          · Powered by <a href="https://freeimage.host" target="_blank" rel="noopener">freeimage.host</a>
+          · Powered by <a href="https://api-library-kohi.onrender.com" target="_blank" rel="noopener">kohi library API</a>
         </p>
       </footer>
     </div>
@@ -563,7 +553,7 @@
   <script>
     const $ = (id) => document.getElementById(id);
     let selectedFile = null;
-    let mode = 'file'; // 'file' | 'url'
+    let mode = 'file';
 
     // ---- Toast ----
     function toast(msg, type = 'info') {
@@ -577,7 +567,7 @@
 
     // ---- Helpers ----
     function formatBytes(bytes) {
-      if (!bytes) return '0 B';
+      if (!bytes) return '—';
       const k = 1024;
       const sizes = ['B', 'KB', 'MB', 'GB'];
       const i = Math.floor(Math.log(bytes) / Math.log(k));
@@ -715,17 +705,8 @@
         toast('Copy failed', 'warn');
       }
     }
-    ['copy-direct', 'copy-thumb', 'copy-medium', 'copy-viewer'].forEach(id => {
-      const btn = $(id);
-      if (!btn) return;
-      const map = {
-        'copy-direct': 'direct-url',
-        'copy-thumb': 'thumb-url',
-        'copy-medium': 'medium-url',
-        'copy-viewer': 'viewer-url',
-      };
-      btn.addEventListener('click', () => copyValue(map[id], btn));
-    });
+    $('copy-direct').addEventListener('click', (e) => copyValue('direct-url', e.currentTarget));
+    $('copy-display').addEventListener('click', (e) => copyValue('display-url', e.currentTarget));
 
     // ---- Upload ----
     async function upload() {
@@ -757,7 +738,6 @@
           });
           progressFill.style.width = '45%';
           body = { image: dataUrl };
-
         } else {
           const url = $('remote-url').value.trim();
           if (!url) throw new Error('Paste an image URL');
@@ -775,7 +755,7 @@
         const data = await res.json();
 
         if (!data.success) {
-          throw new Error(data.error || 'Upload failed');
+          throw new Error(data.error || `Upload failed (HTTP ${res.status})`);
         }
 
         progressFill.style.width = '100%';
@@ -797,22 +777,20 @@
     }
 
     function renderResult(data) {
+      // Preview thumbnail
+      $('result-img').src = data.displayUrl || data.url || '';
+
+      // URLs
       $('direct-url').value = data.url || '';
-      $('thumb-url').value = data.thumbUrl || '';
-      $('medium-url').value = data.mediumUrl || '';
-      $('viewer-url').value = data.viewerUrl || '';
+      $('display-url').value = data.displayUrl || data.url || '';
+      $('view-link').href = data.url || '#';
 
-      $('m-dims').textContent = data.width && data.height
-        ? `${data.width} × ${data.height} px`
-        : '—';
-      $('m-size').textContent = data.sizeFormatted || (data.size ? formatBytes(data.size) : '—');
-      $('m-type').textContent = (data.mime || '').replace('image/', '').toUpperCase() || '—';
-      $('m-name').textContent = data.filename || data.originalFilename || '—';
-      $('m-md5').textContent = data.md5 || '—';
-      $('m-date').textContent = data.date || '—';
+      // Metadata
+      $('m-size').textContent = data.sizeFormatted || formatBytes(data.size);
+      $('m-type').textContent = (data.extension || '').toUpperCase() || '—';
+      $('m-name').textContent = data.filename || '—';
 
-      $('view-link').href = data.viewerUrl || data.url || '#';
-
+      // Show
       $('empty-result').style.display = 'none';
       $('result-content').style.display = 'block';
     }
