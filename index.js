@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const axios = require('axios');
+const FormData = require('form-data');
 
 const app = express();
 app.disable('x-powered-by');
@@ -168,7 +170,7 @@ app.get('/api/agriculture-fact', (req, res) => {
 });
 
 // ============================================================
-//  Image Upload API (proxies to freeimage.host)
+//  Image Upload API — axios + form-data
 //  Accepts JSON: { image: "data:image/png;base64,..." }
 //  Returns: { success, url, thumb, display, deleteUrl, width, height, size, filename }
 // ============================================================
@@ -179,37 +181,55 @@ app.post('/api/upload', express.json({ limit: '15mb' }), async (req, res) => {
     return res.status(400).json({ success: false, error: 'No image data provided' });
   }
 
-  // Validate it's a data URL
-  if (!image.startsWith('data:image/')) {
-    return res.status(400).json({ success: false, error: 'Invalid image format. Expected a data URL.' });
+  // Must be a base64 data URL
+  const match = image.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+  if (!match) {
+    return res.status(400).json({ success: false, error: 'Invalid image format. Expected a base64 data URL.' });
   }
 
-  // Safety: reject anything over ~10 MB base64 (≈ 7.5 MB original)
-  if (image.length > 13 * 1024 * 1024) {
+  const mimeType = match[1];
+  const base64Data = match[2];
+  const buffer = Buffer.from(base64Data, 'base64');
+
+  // Safety: reject anything over ~10 MB
+  if (buffer.length > 10 * 1024 * 1024) {
     return res.status(413).json({ success: false, error: 'Image too large (max 10 MB)' });
   }
 
-  try {
-    const formData = new URLSearchParams();
-    formData.append('key', '6d207e02198a847aa98d0a2a901485a5');
-    formData.append('action', 'upload');
-    formData.append('source', image);
-    formData.append('format', 'json');
+  // Pick a sane filename + extension
+  const ext = mimeType.split('/')[1].replace('jpeg', 'jpg');
+  const filename = `upload-${Date.now()}.${ext}`;
 
-    const response = await fetch('https://freeimage.host/api/1/upload', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formData.toString(),
+  try {
+    const form = new FormData();
+
+    form.append('key', '6d207e02198a847aa98d0a2a901485a5');
+    form.append('action', 'upload');
+    form.append('format', 'json');
+    form.append('source', buffer, {
+      filename,
+      contentType: mimeType,
     });
 
-    const data = await response.json();
+    const response = await axios.post(
+      'https://freeimage.host/api/1/upload/',
+      form,
+      {
+        headers: {
+          ...form.getHeaders(),
+        },
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
+        timeout: 30000,
+      }
+    );
 
-    if (!response.ok || data.status_code !== 200) {
+    const data = response.data;
+
+    if (!data || !data.image) {
       return res.status(502).json({
         success: false,
-        error: data.error?.message || 'Upload failed on freeimage.host',
+        error: data?.error?.message || 'Upload failed on freeimage.host',
       });
     }
 
@@ -222,11 +242,15 @@ app.post('/api/upload', express.json({ limit: '15mb' }), async (req, res) => {
       width: data.image.width,
       height: data.image.height,
       size: data.image.size,
-      filename: data.image.filename,
+      filename: data.image.filename || filename,
     });
   } catch (error) {
-    console.error('Upload error:', error);
-    res.status(500).json({ success: false, error: 'Server error during upload' });
+    console.error('Upload error:', error.message);
+    const upstream = error.response?.data;
+    res.status(error.response?.status || 500).json({
+      success: false,
+      error: upstream?.error?.message || error.message || 'Upload failed',
+    });
   }
 });
 
