@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Education · Chris</title>
+  <meta name="description" content="My academic journey — BS Agriculture, Major in Agricultural Extension at EVSU Burauen." />
+  <link rel="icon" href="/assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/themes.css" />
+  <link rel="stylesheet" href="/assets/css/ui.css" />
+  <style>
+    /* ---- Page head ---- */
+    .page-head {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .page-head h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .page-head p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ---- School card ---- */
+    .school-card {
+      position: relative;
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .school-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.14), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(52, 211, 153, 0.12), transparent 45%);
+      pointer-events: none;
+    }
+    .school-card::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--accent-cyan), var(--accent-emerald));
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+    }
+
+    .school-inner {
+      position: relative;
+      display: flex;
+      gap: 1.8rem;
+      align-items: center;
+    }
+
+    .school-logo-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .school-logo-ring {
+      padding: 4px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg,
+        var(--accent-cyan), var(--accent-emerald), var(--accent-purple), var(--accent-cyan));
+      animation: spin 10s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .school-logo-inner {
+      padding: 4px;
+      border-radius: 50%;
+      background: #070a12;
+    }
+    .school-logo-inner img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: #fff;
+    }
+    .school-status {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #0b0f19;
+      background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+      box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
+      z-index: 2;
+    }
+
+    .school-body { flex: 1; min-width: 0; }
+    .school-name {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .school-location {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.85rem;
+    }
+    .school-location i { color: var(--accent-cyan); }
+
+    /* ---- Program card ---- */
+    .program-card {
+      padding: 1.5rem 1.6rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .program-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-emerald));
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+    }
+    .program-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .program-label::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 6px var(--accent-cyan);
+    }
+    .program-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 0.35rem;
+    }
+    .program-major {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--accent-emerald);
+      margin-bottom: 1rem;
+    }
+    .program-desc {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .program-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+    .program-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .program-meta i { color: var(--accent-cyan); font-size: 0.68rem; }
+
+    /* ---- Focus areas ---- */
+    .focus-card {
+      padding: 1.5rem 1.6rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+    }
+    .focus-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .focus-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 0.85rem;
+      border-radius: 10px;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      transition: all var(--transition-fast);
+    }
+    .focus-item:hover {
+      border-color: rgba(34, 211, 238, 0.35);
+      background: rgba(34, 211, 238, 0.06);
+      color: var(--text);
+    }
+    .focus-item i {
+      color: var(--accent-emerald);
+      font-size: 0.85rem;
+    }
+
+    /* ---- Random agriculture fact ---- */
+    .fact-card {
+      position: relative;
+      padding: 1.8rem 2rem;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .fact-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg,
+        rgba(52, 211, 153, 0.08) 0%,
+        rgba(34, 211, 238, 0.06) 100%);
+      pointer-events: none;
+    }
+    .fact-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      position: relative;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .fact-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent-emerald);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .fact-label i { font-size: 0.9rem; }
+    .fact-refresh {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .fact-refresh:hover {
+      color: var(--accent-emerald);
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(52, 211, 153, 0.08);
+    }
+    .fact-refresh.spinning i { animation: spin 0.8s linear infinite; }
+    .fact-text {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+      position: relative;
+      min-height: 3.2em;
+    }
+    .fact-meta {
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      position: relative;
+    }
+
+    @media (max-width: 640px) {
+      .school-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .school-logo-inner img { width: 90px; height: 90px; }
+      .school-location { justify-content: center; }
+      .program-meta { justify-content: center; }
+      .fact-header { justify-content: center; }
+      .fact-text { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="ambient">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+  </div>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-mark"><i class="fas fa-graduation-cap"></i></span>
+      <div class="brand-text">
+        <span data-cfg="profile.name">Chris</span>
+        <small>Education</small>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="theme-toggle">
+        <button data-theme="dark" class="active">
+          <i class="fas fa-circle-half-stroke"></i> Dark
+        </button>
+        <button data-theme="glass">
+          <i class="fas fa-droplet"></i> Glass
+        </button>
+      </div>
+      <button class="icon-btn hamburger" id="hamburger-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path class="menu-line top-line" d="M4 6h16"/>
+          <path class="menu-line middle-line" d="M4 12h16"/>
+          <path class="menu-line bottom-line" d="M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="brand">
+        <span class="brand-mark"><i class="fas fa-user"></i></span>
+        <div>
+          <h2 data-cfg="profile.name">Chris</h2>
+          <small>Personal</small>
+        </div>
+      </div>
+      <button class="icon-btn" id="drawer-close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section-label">Navigate</div>
+      <nav class="drawer-nav">
+        <a href="/">
+          <span class="nav-icon"><i class="fas fa-house"></i></span>
+          <span class="nav-label">Home <small>Welcome</small></span>
+        </a>
+        <a href="/profile">
+          <span class="nav-icon"><i class="fas fa-id-badge"></i></span>
+          <span class="nav-label">Profile <small>About me</small></span>
+        </a>
+        <a href="/hobbies">
+          <span class="nav-icon"><i class="fas fa-heart"></i></span>
+          <span class="nav-label">Hobbies <small>What I love</small></span>
+        </a>
+        <a href="/education" class="active">
+          <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
+          <span class="nav-label">Education <small>School & program</small></span>
+        </a>
+        <a href="/contact">
+          <span class="nav-icon"><i class="fas fa-envelope"></i></span>
+          <span class="nav-label">Contact <small>Reach out</small></span>
+        </a>
+        <a href="/gallery">
+          <span class="nav-icon"><i class="fas fa-images"></i></span>
+          <span class="nav-label">Gallery <small>Moments</small></span>
+        </a>
+      </nav>
+    </div>
+    <div class="drawer-footer"><span class="status-dot"></span> Online now</div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-shell">
+    <div class="container" style="max-width:900px;">
+
+      <header class="page-head animate-reveal">
+        <h1><span class="brand-gradient-text" id="edu-title">Education</span></h1>
+        <p id="edu-subtitle">My academic journey — from curiosity to cultivation.</p>
+      </header>
+
+      <!-- School card -->
+      <section class="school-card glass animate-reveal" style="animation-delay:0.05s;">
+        <div class="school-inner">
+          <div class="school-logo-wrap">
+            <div class="school-logo-ring">
+              <div class="school-logo-inner">
+                <img id="school-logo" src="" alt="School logo" />
+              </div>
+            </div>
+            <span class="school-status" id="school-status">Enrolled</span>
+          </div>
+
+          <div class="school-body">
+            <h2 class="school-name" id="school-name">—</h2>
+            <p class="school-location">
+              <i class="fas fa-location-dot"></i>
+              <span id="school-location">—</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Program card -->
+      <section class="program-card glass animate-reveal" style="animation-delay:0.1s;">
+        <span class="program-label"><i class="fas fa-book"></i> Current Program</span>
+        <h3 class="program-title" id="program-title">—</h3>
+        <p class="program-major" id="program-major">—</p>
+        <p class="program-desc" id="program-desc">—</p>
+
+        <div class="program-meta">
+          <span><i class="fas fa-calendar"></i> <span id="program-year">—</span></span>
+          <span><i class="fas fa-flag-checkered"></i> Graduating <span id="program-grad">—</span></span>
+          <span><i class="fas fa-circle-info"></i> <span id="program-status">—</span></span>
+        </div>
+      </section>
+
+      <!-- Focus areas -->
+      <section class="focus-card glass animate-reveal" style="animation-delay:0.15s;">
+        <span class="program-label"><i class="fas fa-seedling"></i> Focus Areas</span>
+        <div class="focus-list" id="focus-list">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Random agriculture fact -->
+      <section class="fact-card glass animate-reveal" style="animation-delay:0.2s;">
+        <div class="fact-header">
+          <span class="fact-label">
+            <i class="fas fa-wheat-awn"></i> Did you know?
+          </span>
+          <button class="fact-refresh" id="fact-refresh" title="New fact">
+            <i class="fas fa-rotate"></i> New fact
+          </button>
+        </div>
+        <p class="fact-text" id="fact-text">Loading a fact…</p>
+        <p class="fact-meta" id="fact-meta"></p>
+      </section>
+
+      <footer>
+        <p>
+          © <span id="year">2026</span>
+          <span data-cfg="profile.name">Chris</span>
+          · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script>
+    // ============================================================
+    // Auto year
+    // ============================================================
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+
+    // ============================================================
+    // Populate education from config
+    // ============================================================
+    (async function () {
+      let cfg = null;
+      try {
+        const r = await fetch('/api/config');
+        cfg = await r.json();
+      } catch (e) {
+        console.error('Config load failed', e);
+        return;
+      }
+
+      const edu = cfg.education;
+      if (!edu) return;
+
+      // Header
+      const titleEl = document.getElementById('edu-title');
+      const subEl = document.getElementById('edu-subtitle');
+      if (titleEl && edu.title) titleEl.textContent = edu.title;
+      if (subEl && edu.subtitle) subEl.textContent = edu.subtitle;
+
+      const c = edu.current || {};
+
+      // School
+      const logo = document.getElementById('school-logo');
+      if (logo && c.logo) {
+        logo.src = c.logo;
+        logo.alt = c.school || 'School logo';
+        logo.onerror = () => {
+          logo.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+               <rect width="100" height="100" fill="#0d1422"/>
+               <text x="50" y="58" text-anchor="middle" font-size="36" fill="#22d3ee" font-family="sans-serif">🎓</text>
+             </svg>`);
+        };
+      }
+
+      document.getElementById('school-name').textContent = c.school || '—';
+      document.getElementById('school-location').textContent = c.location || '—';
+      document.getElementById('school-status').textContent = c.status || 'Enrolled';
+
+      // Program
+      document.getElementById('program-title').textContent = c.program || '—';
+      document.getElementById('program-major').textContent = c.major || '';
+      document.getElementById('program-desc').textContent = c.description || '';
+      document.getElementById('program-year').textContent = c.year || '—';
+      document.getElementById('program-grad').textContent = c.expectedGraduation || '—';
+      document.getElementById('program-status').textContent = c.status || '—';
+
+      // Focus areas
+      const focusList = document.getElementById('focus-list');
+      if (focusList && Array.isArray(c.focus)) {
+        focusList.innerHTML = c.focus.map(f => `
+          <div class="focus-item">
+            <i class="fas fa-check-circle"></i>
+            <span>${f}</span>
+          </div>
+        `).join('');
+      }
+
+      // Document title
+      document.title = `Education · ${cfg.profile?.name || 'Chris'}`;
+    })();
+
+    // ============================================================
+    // Random agriculture fact
+    // ============================================================
+    const factText = document.getElementById('fact-text');
+    const factMeta = document.getElementById('fact-meta');
+    const factBtn = document.getElementById('fact-refresh');
+
+    async function loadFact() {
+      if (!factText) return;
+      factText.textContent = 'Fetching a fresh fact…';
+
+      try {
+        const r = await fetch('/api/agriculture-fact');
+        const d = await r.json();
+        if (!d.success) throw new Error('No fact');
+
+        // Fade transition
+        factText.style.opacity = '0';
+        setTimeout(() => {
+          factText.textContent = d.fact;
+          factText.style.opacity = '1';
+          if (factMeta) {
+            factMeta.textContent = `Fact #${Math.floor(Math.random() * d.total) + 1} of ${d.total} · via /api/agriculture-fact`;
+          }
+        }, 150);
+      } catch (e) {
+        factText.textContent = 'Could not load a fact right now. Try again in a moment.';
+        if (factMeta) factMeta.textContent = '';
+      }
+    }
+
+    // Initial load
+    loadFact();
+
+    // Refresh button
+    if (factBtn) {
+      factBtn.addEventListener('click', async () => {
+        factBtn.classList.add('spinning');
+        await loadFact();
+        setTimeout(() => factBtn.classList.remove('spinning'), 700);
+      });
+    }
+  </script>
+
+  <style>
+    /* Smooth fade for fact swap */
+    #fact-text {
+      transition: opacity 0.25s ease;
+    }
+  </style>
+</body>
+</html>
