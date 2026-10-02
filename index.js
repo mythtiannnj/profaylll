@@ -33,10 +33,19 @@ app.use(express.static(path.join(__dirname, 'public'), {
 }));
 
 // ============================================================
+//  Image API config
+// ============================================================
+const IMAGE_API = {
+  url: 'https://api-library-kohi.onrender.com/api/freeimage',
+  timeout: 60000,          // Render free tier can be slow on cold start
+  maxSizeMB: 10,
+};
+
+// ============================================================
 //  Agriculture facts pool — 75 facts
 // ============================================================
 const AGRI_FACTS = [
-  // --- Global & General ---
+  // Global & General
   "Agriculture employs over 1 billion people worldwide — about 1 in 3 workers.",
   "Farming is one of the oldest professions — dating back over 10,000 years.",
   "Around 40% of the world's food is produced by small-scale farmers.",
@@ -46,7 +55,7 @@ const AGRI_FACTS = [
   "About 1 in 9 people worldwide still experience food insecurity.",
   "Only 3% of the world's water is freshwater, and 70% of that is used for agriculture.",
 
-  // --- Rice ---
+  // Rice
   "Rice feeds more than half of the world's population, making it the most consumed staple grain.",
   "It takes about 2,500 liters of water to grow just 1 kilogram of rice.",
   "The Philippines grows over 100 varieties of rice, from upland to lowland.",
@@ -55,20 +64,20 @@ const AGRI_FACTS = [
   "Rice was first domesticated in the Yangtze River basin of China around 9,000 years ago.",
   "A single rice plant can produce up to 3,000 grains.",
 
-  // --- Corn / Maize ---
+  // Corn / Maize
   "Corn (maize) is grown on every continent except Antarctica.",
   "Corn was first domesticated in southern Mexico about 9,000 years ago.",
   "Every ear of corn has an even number of rows — usually 16.",
   "A single corn plant produces about 1 million pollen grains.",
 
-  // --- Coconut (PH relevance) ---
+  // Coconut
   "Coconut trees can produce fruit for up to 100 years.",
   "The Philippines is one of the world's top 5 producers of coconuts.",
   "Leyte is one of the Philippines' top coconut-producing provinces.",
   "A single coconut palm can yield up to 75 coconuts per year.",
   "Coconut water is naturally sterile and was used as an IV drip during WWII.",
 
-  // --- Coffee ---
+  // Coffee
   "Coffee was first discovered in Ethiopia by a goat herder named Kaldi.",
   "Coffee is the second most traded commodity in the world after oil.",
   "It takes about 4,000 coffee beans to make 1 kilogram of roasted coffee.",
@@ -76,7 +85,7 @@ const AGRI_FACTS = [
   "Brazil has been the world's largest coffee producer for over 150 years.",
   "The Philippines is one of the few countries producing all 4 commercial coffee varieties.",
 
-  // --- Fruits & Vegetables ---
+  // Fruits & Vegetables
   "Bananas are technically berries, but strawberries are not.",
   "Tomatoes are botanically fruits but legally classified as vegetables in the US.",
   "Avocados are fruits, and they contain more potassium than bananas.",
@@ -86,7 +95,7 @@ const AGRI_FACTS = [
   "A single strawberry has about 200 seeds on its outer surface.",
   "Pineapples take 2 years to grow and each plant produces only one fruit.",
 
-  // --- Soil ---
+  // Soil
   "Soil contains more living organisms in a single teaspoon than there are people on Earth.",
   "One hectare of healthy soil can store up to 2,000 tons of carbon.",
   "Soil erosion can destroy up to 75 billion tons of topsoil worldwide each year.",
@@ -94,20 +103,20 @@ const AGRI_FACTS = [
   "Earthworms can eat their own body weight in soil every day.",
   "Healthy soil can hold up to 3,750 gallons of water per acre.",
 
-  // --- Bees & Pollination ---
+  // Bees & Pollination
   "Bees pollinate 1 in every 3 bites of food we eat.",
   "A single honeybee visits 50 to 100 flowers per trip.",
   "One bee colony can pollinate 300 million flowers in a day.",
   "Bees communicate by dancing — the 'waggle dance' tells others where nectar is.",
 
-  // --- Livestock ---
+  // Livestock
   "One cow can produce up to 200,000 glasses of milk in its lifetime.",
   "Cows have almost panoramic vision — nearly 360 degrees.",
   "Chickens are the most numerous birds on Earth, with over 25 billion worldwide.",
   "A dairy cow drinks about 30 to 50 gallons of water per day.",
   "Goats were the first animals domesticated by humans, about 10,000 years ago.",
 
-  // --- Sustainable & Modern Farming ---
+  // Sustainable & Modern Farming
   "Vertical farming uses up to 95% less water than traditional farming.",
   "Hydroponics — growing plants without soil — is over 1,000 years old.",
   "Aquaponics combines fish farming and hydroponics in a closed loop.",
@@ -115,7 +124,7 @@ const AGRI_FACTS = [
   "Precision agriculture uses GPS and drones to optimize water and fertilizer use.",
   "Agroforestry integrates trees with crops to boost biodiversity and yields.",
 
-  // --- Grains & Others ---
+  // Grains & Others
   "A single grain of wheat can produce up to 20,000 more grains when planted.",
   "Sugarcane is the world's largest crop by production volume.",
   "Wheat was first cultivated around 9,000 years ago in the Fertile Crescent.",
@@ -124,20 +133,20 @@ const AGRI_FACTS = [
   "Soybeans are the most widely grown oilseed in the world.",
   "The Philippines produces about 8 million tons of sugarcane annually.",
 
-  // --- Pests & Disease ---
+  // Pests & Disease
   "Plant diseases cost the global economy over $220 billion each year.",
   "Invasive pests destroy up to 40% of global food crops annually.",
   "Integrated Pest Management (IPM) reduces pesticides by up to 50%.",
   "Crop rotation is one of the oldest methods to prevent soil-borne diseases.",
 
-  // --- Agricultural Extension (your major!) ---
+  // Agricultural Extension
   "Agricultural extension workers help farmers adopt new technology and improve yields.",
   "The first formal agricultural extension program began in Ireland in 1847.",
   "Extension services reach over 500 million farmers worldwide.",
   "Agricultural extension is credited with boosting rice yields in Asia during the Green Revolution.",
   "The 4 pillars of extension are: teaching, research, demonstration, and adoption.",
 
-  // --- Philippines specific ---
+  // Philippines specific
   "Agriculture contributes about 10% of the Philippines' GDP.",
   "The Philippines has over 5.5 million hectares of rice paddies.",
   "One-third of Filipino workers are employed in agriculture.",
@@ -148,7 +157,91 @@ const AGRI_FACTS = [
 ];
 
 // ============================================================
-//  Public config (safe subset)
+//  Helpers
+// ============================================================
+function formatBytes(bytes) {
+  if (!bytes || typeof bytes !== 'number') return null;
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return (bytes / Math.pow(k, i)).toFixed(1) + ' ' + sizes[i];
+}
+
+function normalizeUpload(data) {
+  if (!data) {
+    return { success: false, error: 'Empty response from upstream' };
+  }
+
+  // ---- api-library-kohi shape: { status, data: {...} } ----
+  if (data.status === true && data.data && typeof data.data === 'object') {
+    const d = data.data;
+    const ext = d.filename ? d.filename.split('.').pop().toLowerCase() : null;
+    return {
+      success: true,
+      url: d.url || '',
+      displayUrl: d.display_url || d.url || '',
+      mediumUrl: d.display_url || d.url || '',
+      thumbUrl: d.display_url || d.url || '',
+      viewerUrl: d.url || '',
+      filename: d.filename || '',
+      extension: ext,
+      mime: ext ? `image/${ext === 'jpg' ? 'jpeg' : ext}` : null,
+      size: d.size || null,
+      sizeFormatted: formatBytes(d.size),
+      width: d.width || null,
+      height: d.height || null,
+      md5: d.md5 || null,
+      date: new Date().toISOString(),
+      raw: data,
+    };
+  }
+
+  // ---- api-library-kohi error ----
+  if (data.status === false) {
+    return {
+      success: false,
+      error: data.message || data.error || 'Upload failed',
+      raw: data,
+    };
+  }
+
+  // ---- Generic { success: true, data: {...} } ----
+  if (data.success === true && data.data && typeof data.data === 'object') {
+    return normalizeUpload({ status: true, data: data.data });
+  }
+
+  // ---- Flat shape ----
+  if (data.url) {
+    const ext = data.filename ? data.filename.split('.').pop().toLowerCase() : null;
+    return {
+      success: true,
+      url: data.url,
+      displayUrl: data.display_url || data.url,
+      mediumUrl: data.display_url || data.url,
+      thumbUrl: data.display_url || data.url,
+      viewerUrl: data.url,
+      filename: data.filename || '',
+      extension: ext,
+      mime: data.mime || (ext ? `image/${ext === 'jpg' ? 'jpeg' : ext}` : null),
+      size: data.size || null,
+      sizeFormatted: formatBytes(data.size),
+      width: data.width || null,
+      height: data.height || null,
+      md5: data.md5 || null,
+      date: data.date || new Date().toISOString(),
+      raw: data,
+    };
+  }
+
+  return {
+    success: false,
+    error: data.error?.message || data.error || data.message || 'Unknown response format',
+    raw: data,
+  };
+}
+
+// ============================================================
+//  API: public config
 // ============================================================
 app.get('/api/config', (req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=300');
@@ -156,7 +249,7 @@ app.get('/api/config', (req, res) => {
 });
 
 // ============================================================
-//  Random agriculture fact API
+//  API: random agriculture fact
 // ============================================================
 app.get('/api/agriculture-fact', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -170,11 +263,12 @@ app.get('/api/agriculture-fact', (req, res) => {
 });
 
 // ============================================================
-//  Image Upload API — axios + form-data
-//  Accepts JSON:
-//    { image: "data:image/png;base64,..." }   → upload file (base64)
-//    { url:   "https://example.com/pic.jpg" } → upload from URL
-//  Returns flattened image info + all freeimage.host URLs
+//  API: image upload
+//  POST /api/upload
+//  Body (JSON):
+//    { image: "data:image/png;base64,..." }  → file upload
+//    { url:   "https://example.com/pic.jpg" } → URL upload
+//  Proxies to: https://api-library-kohi.onrender.com/api/freeimage
 // ============================================================
 app.post('/api/upload', express.json({ limit: '15mb' }), async (req, res) => {
   const { image, url } = req.body || {};
@@ -182,72 +276,108 @@ app.post('/api/upload', express.json({ limit: '15mb' }), async (req, res) => {
   if (!image && !url) {
     return res.status(400).json({
       success: false,
-      error: 'Provide either "image" (base64 data URL) or "url" (remote image URL)',
+      error: 'Provide either "image" (base64) or "url" (remote image URL)',
     });
   }
 
-  const API_KEY = '6d207e02198a847aa98d0a2a901485a5';
-  const ENDPOINT = 'https://freeimage.host/api/1/upload/';
-
   try {
-    // --------------------------------------------
-    // Case A: Upload from a remote URL
-    // --------------------------------------------
+    let upstream;
+
+    // ----------------------------------------
+    // Case A: URL upload
+    // ----------------------------------------
     if (url) {
       if (!/^https?:\/\//i.test(url)) {
         return res.status(400).json({ success: false, error: 'Invalid URL' });
       }
 
+      // Try multipart with `source` field
       const form = new FormData();
-      form.append('key', API_KEY);
-      form.append('action', 'upload');
-      form.append('format', 'json');
       form.append('source', url);
 
-      const response = await axios.post(ENDPOINT, form, {
+      upstream = await axios.post(IMAGE_API.url, form, {
         headers: form.getHeaders(),
-        timeout: 30000,
+        timeout: IMAGE_API.timeout,
+        validateStatus: () => true,
       });
 
-      return res.json(normalizeUpload(response.data));
+      // Fallback to JSON body if multipart fails
+      if (upstream.status >= 400) {
+        upstream = await axios.post(
+          IMAGE_API.url,
+          { source: url, url },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            timeout: IMAGE_API.timeout,
+            validateStatus: () => true,
+          }
+        );
+      }
     }
 
-    // --------------------------------------------
-    // Case B: Upload a base64 data URL (file from browser)
-    // --------------------------------------------
-    const match = image.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
-    if (!match) {
-      return res.status(400).json({
-        success: false,
-        error: 'Invalid image format. Expected a base64 data URL.',
+    // ----------------------------------------
+    // Case B: Base64 file upload
+    // ----------------------------------------
+    else {
+      const match = image.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+      if (!match) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid image format. Expected a base64 data URL.',
+        });
+      }
+
+      const mimeType = match[1];
+      const base64Data = match[2];
+      const buffer = Buffer.from(base64Data, 'base64');
+
+      if (buffer.length > IMAGE_API.maxSizeMB * 1024 * 1024) {
+        return res.status(413).json({
+          success: false,
+          error: `Image too large (max ${IMAGE_API.maxSizeMB} MB)`,
+        });
+      }
+
+      const ext = mimeType.split('/')[1].replace('jpeg', 'jpg');
+      const filename = `upload-${Date.now()}.${ext}`;
+
+      const form = new FormData();
+      form.append('source', buffer, { filename, contentType: mimeType });
+      form.append('image', buffer, { filename, contentType: mimeType });
+
+      upstream = await axios.post(IMAGE_API.url, form, {
+        headers: form.getHeaders(),
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
+        timeout: IMAGE_API.timeout,
+        validateStatus: () => true,
       });
+
+      // Fallback to JSON body
+      if (upstream.status >= 400) {
+        upstream = await axios.post(
+          IMAGE_API.url,
+          { image, source: base64Data, filename, mime: mimeType },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            timeout: IMAGE_API.timeout,
+            validateStatus: () => true,
+            maxBodyLength: Infinity,
+          }
+        );
+      }
     }
 
-    const mimeType = match[1];
-    const base64Data = match[2];
-    const buffer = Buffer.from(base64Data, 'base64');
+    // ----------------------------------------
+    // Normalize and return
+    // ----------------------------------------
+    const normalized = normalizeUpload(upstream.data);
 
-    if (buffer.length > 10 * 1024 * 1024) {
-      return res.status(413).json({ success: false, error: 'Image too large (max 10 MB)' });
+    if (!normalized.success) {
+      return res.status(502).json(normalized);
     }
 
-    const ext = mimeType.split('/')[1].replace('jpeg', 'jpg');
-    const filename = `upload-${Date.now()}.${ext}`;
-
-    const form = new FormData();
-    form.append('key', API_KEY);
-    form.append('action', 'upload');
-    form.append('format', 'json');
-    form.append('source', buffer, { filename, contentType: mimeType });
-
-    const response = await axios.post(ENDPOINT, form, {
-      headers: form.getHeaders(),
-      maxBodyLength: Infinity,
-      maxContentLength: Infinity,
-      timeout: 30000,
-    });
-
-    return res.json(normalizeUpload(response.data));
+    return res.json(normalized);
 
   } catch (error) {
     console.error('Upload error:', error.message);
@@ -256,69 +386,15 @@ app.post('/api/upload', express.json({ limit: '15mb' }), async (req, res) => {
     return res.status(error.response?.status || 500).json({
       success: false,
       error:
+        upstream?.message ||
         upstream?.error?.message ||
-        upstream?.status_txt ||
+        upstream?.error ||
         error.message ||
         'Upload failed',
       details: upstream || null,
     });
   }
 });
-
-// ============================================================
-//  Normalize freeimage.host response for the frontend
-// ============================================================
-function normalizeUpload(data) {
-  // Detect failure
-  if (!data || data.status_code !== 200 || !data.image) {
-    return {
-      success: false,
-      error: data?.error?.message || data?.status_txt || 'Upload failed',
-      raw: data || null,
-    };
-  }
-
-  const img = data.image;
-
-  return {
-    success: true,
-
-    // Core
-    id: img.id_encoded,
-    filename: img.filename,
-    originalFilename: img.original_filename,
-    mime: img.mime,
-    extension: img.extension,
-
-    // Dimensions & size
-    width: img.width,
-    height: img.height,
-    size: img.size,
-    sizeFormatted: img.size_formatted,
-    ratio: img.ratio,
-
-    // Dates
-    date: img.date,
-    dateGmt: img.date_gmt,
-
-    // URLs
-    url: img.url,                             // direct full-res
-    viewerUrl: img.url_viewer,                // viewer page
-    displayUrl: img.display_url,              // medium-size display
-    thumbUrl: img.thumb?.url || img.url,      // 160px thumb
-    mediumUrl: img.medium?.url || img.url,    // 500px medium
-    deleteUrl: img.delete_url || '',          // some API versions return this
-
-    // Meta
-    views: img.views,
-    nsfw: img.nsfw,
-    md5: img.md5,
-    storage: img.storage,
-
-    // Raw response passthrough
-    raw: data,
-  };
-}
 
 // ============================================================
 //  Page routes
