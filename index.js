@@ -324,6 +324,7 @@ const pages = {
   '/hobbies':   'hobbies.html',
   '/education': 'education.html',
   '/contact':   'contact.html',
+  '/about':    'about.html',
   '/gallery':   'gallery.html',
 };
 
