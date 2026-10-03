@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About This Website · Chris</title>
+  <meta name="description" content="Learn about this personal website — managed by Chris, hosted on Render, monitored by Better Stack uptime." />
+  <meta name="theme-color" content="#070a12" />
+  <link rel="icon" href="/assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/themes.css" />
+  <link rel="stylesheet" href="/assets/css/ui.css" />
+  <style>
+    .page-head {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .page-head h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .page-head p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ---- Intro card ---- */
+    .intro-card {
+      position: relative;
+      padding: 2rem 2rem;
+      border-radius: var(--radius-xl);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .intro-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(34, 211, 238, 0.12), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(167, 139, 250, 0.10), transparent 45%);
+      pointer-events: none;
+    }
+    .intro-card::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 3px;
+      background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.6);
+    }
+
+    .intro-head {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 1rem;
+    }
+    .intro-head i {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.10));
+      border: 1px solid rgba(34, 211, 238, 0.30);
+      color: var(--accent-cyan);
+      font-size: 1.2rem;
+      box-shadow: 0 0 24px -8px rgba(34, 211, 238, 0.5);
+    }
+    .intro-head h2 {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .intro-text {
+      position: relative;
+      font-size: 0.98rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+      max-width: 68ch;
+    }
+    .intro-text + .intro-text { margin-top: 1rem; }
+    .intro-text strong { color: var(--text); font-weight: 600; }
+
+    /* ---- Info tiles ---- */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-tile {
+      padding: 1.3rem 1.4rem;
+      border-radius: var(--radius-lg);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .info-tile:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34, 211, 238, 0.35);
+      box-shadow: var(--shadow-card), 0 0 30px -10px rgba(34, 211, 238, 0.4);
+    }
+
+    .info-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+    }
+    .info-icon.cyan    { color: var(--accent-cyan);    background: rgba(34, 211, 238, 0.10);  border-color: rgba(34, 211, 238, 0.30); }
+    .info-icon.purple  { color: var(--accent-purple);  background: rgba(167, 139, 250, 0.10); border-color: rgba(167, 139, 250, 0.30); }
+    .info-icon.emerald { color: var(--accent-emerald); background: rgba(52, 211, 153, 0.10);  border-color: rgba(52, 211, 153, 0.30); }
+    .info-icon.amber   { color: var(--accent-amber);   background: rgba(251, 191, 36, 0.10);  border-color: rgba(251, 191, 36, 0.30); }
+
+    .info-body { flex: 1; min-width: 0; }
+    .info-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+    .info-value {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .info-value a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+      transition: text-shadow 0.2s;
+    }
+    .info-value a:hover {
+      text-shadow: 0 0 12px rgba(34, 211, 238, 0.7);
+    }
+    .info-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      line-height: 1.5;
+    }
+
+    /* ---- Status dot ---- */
+    .status-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .status-line .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ---- Purpose card ---- */
+    .purpose-card {
+      padding: 1.6rem 1.8rem;
+      border-radius: var(--radius-lg);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .purpose-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-emerald));
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.6);
+    }
+    .purpose-label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .purpose-label::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 6px var(--accent-cyan);
+    }
+    .purpose-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+    }
+    .purpose-text strong { color: var(--text); font-weight: 600; }
+
+    /* ---- Stack chips ---- */
+    .stack-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    .stack-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.42rem 0.85rem;
+      border-radius: 999px;
+      background: var(--panel-soft);
+      border: 1px solid var(--border-2);
+      color: var(--text-dim);
+      transition: all var(--transition-fast);
+    }
+    .stack-chip:hover {
+      color: var(--accent-cyan);
+      border-color: rgba(34, 211, 238, 0.45);
+      background: rgba(34, 211, 238, 0.08);
+    }
+    .stack-chip i { font-size: 0.8rem; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 640px) {
+      .intro-card { padding: 1.5rem 1.4rem; }
+      .intro-head h2 { font-size: 1.25rem; }
+      .intro-head i { width: 36px; height: 36px; font-size: 1rem; }
+      .purpose-card { padding: 1.3rem 1.4rem; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="ambient">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+  </div>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-mark"><i class="fas fa-circle-info"></i></span>
+      <div class="brand-text">
+        <span data-cfg="profile.name">Chris</span>
+        <small>About This Site</small>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="theme-toggle">
+        <button data-theme="dark" class="active"><i class="fas fa-circle-half-stroke"></i> Dark</button>
+        <button data-theme="glass"><i class="fas fa-droplet"></i> Glass</button>
+      </div>
+      <button class="icon-btn hamburger" id="hamburger-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path class="menu-line top-line" d="M4 6h16"/>
+          <path class="menu-line middle-line" d="M4 12h16"/>
+          <path class="menu-line bottom-line" d="M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="brand">
+        <span class="brand-mark"><i class="fas fa-user"></i></span>
+        <div>
+          <h2 data-cfg="profile.name">Chris</h2>
+          <small>Personal</small>
+        </div>
+      </div>
+      <button class="icon-btn" id="drawer-close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section-label">Navigate</div>
+      <nav class="drawer-nav">
+        <a href="/"><span class="nav-icon"><i class="fas fa-house"></i></span><span class="nav-label">Home <small>Welcome</small></span></a>
+        <a href="/profile"><span class="nav-icon"><i class="fas fa-id-badge"></i></span><span class="nav-label">Profile <small>About me</small></span></a>
+        <a href="/hobbies"><span class="nav-icon"><i class="fas fa-heart"></i></span><span class="nav-label">Hobbies <small>What I love</small></span></a>
+        <a href="/education"><span class="nav-icon"><i class="fas fa-graduation-cap"></i></span><span class="nav-label">Education <small>School & program</small></span></a>
+        <a href="/gallery"><span class="nav-icon"><i class="fas fa-images"></i></span><span class="nav-label">Gallery <small>Moments</small></span></a>
+        <a href="/imguploader"><span class="nav-icon"><i class="fas fa-cloud-arrow-up"></i></span><span class="nav-label">Uploader <small>File → URL</small></span></a>
+        <a href="/about" class="active"><span class="nav-icon"><i class="fas fa-circle-info"></i></span><span class="nav-label">About Site <small>Info & purpose</small></span></a>
+        <a href="/contact"><span class="nav-icon"><i class="fas fa-envelope"></i></span><span class="nav-label">Contact <small>Reach out</small></span></a>
+      </nav>
+    </div>
+    <div class="drawer-footer"><span class="status-dot"></span> Online now</div>
+  </aside>
+
+  <div class="main-shell">
+    <div class="container" style="max-width:900px;">
+
+      <header class="page-head animate-reveal">
+        <h1><span class="brand-gradient-text">About This Website</span></h1>
+        <p>The story behind this personal corner of the internet.</p>
+      </header>
+
+      <!-- Intro -->
+      <section class="intro-card glass animate-reveal" style="animation-delay:0.05s;">
+        <div class="intro-head">
+          <i class="fas fa-book-open"></i>
+          <h2>Introduction</h2>
+        </div>
+
+        <p class="intro-text">
+          Welcome to my personal website — a quiet, digital space where I share a bit of who I am.
+          This site is a small window into my everyday life: the things I love, the things I'm learning,
+          and the things I'm building as I grow.
+        </p>
+
+        <p class="intro-text">
+          I'm <strong>Christian Corpez</strong> — known simply as <strong>Chris</strong> — a
+          <strong>1st Year BS Agriculture student majoring in Agricultural Extension</strong> at
+          Eastern Visayas State University – Burauen Campus. I'm also a coffee enthusiast, a morning runner,
+          and someone who plays guitar when the evening gets quiet.
+        </p>
+
+        <p class="intro-text">
+          This website is my own way of collecting those pieces — a place to look back on moments,
+          track what I'm learning, and share what matters to me. Simple, honest, and made with care.
+        </p>
+      </section>
+
+      <!-- Info tiles -->
+      <div class="info-grid">
+        <div class="info-tile glass animate-reveal" style="animation-delay:0.1s;">
+          <div class="info-icon cyan"><i class="fas fa-user-shield"></i></div>
+          <div class="info-body">
+            <div class="info-label">Managed By</div>
+            <div class="info-value">Admin Chris</div>
+            <div class="info-desc">Sole owner, maintainer, and content curator.</div>
+          </div>
+        </div>
+
+        <div class="info-tile glass animate-reveal" style="animation-delay:0.15s;">
+          <div class="info-icon purple"><i class="fas fa-server"></i></div>
+          <div class="info-body">
+            <div class="info-label">Hosted On</div>
+            <div class="info-value">
+              <a href="https://render.com" target="_blank" rel="noopener">render.com</a>
+            </div>
+            <div class="info-desc">Cloud platform hosting the live site and API.</div>
+          </div>
+        </div>
+
+        <div class="info-tile glass animate-reveal" style="animation-delay:0.2s;">
+          <div class="info-icon emerald"><i class="fas fa-heart-pulse"></i></div>
+          <div class="info-body">
+            <div class="info-label">Uptime Monitoring</div>
+            <div class="info-value status-line">
+              <span class="dot"></span>
+              <a href="https://uptime.betterstack.com" target="_blank" rel="noopener">uptime.betterstack.com</a>
+            </div>
+            <div class="info-desc">Real-time monitoring — always watching the site's health.</div>
+          </div>
+        </div>
+
+        <div class="info-tile glass animate-reveal" style="animation-delay:0.25s;">
+          <div class="info-icon amber"><i class="fas fa-code-branch"></i></div>
+          <div class="info-body">
+            <div class="info-label">Version</div>
+            <div class="info-value">v1.0.0</div>
+            <div class="info-desc">Built with Node, Express, and vanilla web tech.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Purpose -->
+      <section class="purpose-card glass animate-reveal" style="animation-delay:0.3s;">
+        <span class="purpose-label"><i class="fas fa-bullseye"></i> About This Page</span>
+        <p class="purpose-text">
+          This is the <strong>official personal website of Chris</strong> — a small, self-hosted corner
+          of the internet dedicated to sharing who I am through <strong>images, hobbies, and everyday moments</strong>.
+          It's not a business, a brand, or a product — just a personal space to document my journey and
+          let visitors get to know the person behind the page.
+        </p>
+        <p class="purpose-text" style="margin-top:0.9rem;">
+          Whether you're here to browse my gallery, learn about my studies, try the image uploader, or
+          just say hello — I'm glad you stopped by.
+        </p>
+      </section>
+
+      <!-- Tech stack -->
+      <section class="purpose-card glass animate-reveal" style="animation-delay:0.35s;">
+        <span class="purpose-label"><i class="fas fa-layer-group"></i> Built With</span>
+        <div class="stack-wrap">
+          <span class="stack-chip"><i class="fab fa-node-js"></i> Node.js</span>
+          <span class="stack-chip"><i class="fas fa-bolt"></i> Express</span>
+          <span class="stack-chip"><i class="fab fa-html5"></i> HTML5</span>
+          <span class="stack-chip"><i class="fab fa-css3-alt"></i> CSS3</span>
+          <span class="stack-chip"><i class="fab fa-js"></i> Vanilla JS</span>
+          <span class="stack-chip"><i class="fas fa-cloud"></i> Render</span>
+          <span class="stack-chip"><i class="fas fa-heart-pulse"></i> Better Stack</span>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          © <span id="year">2026</span>
+          <span data-cfg="profile.name">Chris</span>
+          · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script>
+    const y = document.getElementById('year');
+    if (y) y.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
