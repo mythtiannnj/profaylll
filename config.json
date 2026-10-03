@@ -77,7 +77,7 @@
   },
   "music": {
     "title": "Top Favorite Music",
-    "subtitle": "Songs I keep on repeat — OPM and everything in between.",
+    "subtitle": "Songs I keep on repeat — OPM, alternative, and everything in between.",
     "tracks": [
       {
         "title": "Habang Buhay",
@@ -122,6 +122,39 @@
         "releaseDate": "2025-08-22",
         "appleMusicUrl": "https://music.apple.com/us/album/libu-libong-buwan-uuwian/1833479414?i=1833479419&uo=4",
         "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/3f/e5/45/3fe54503-3551-d7a6-24fb-d769fa5a7f01/mzaf_14482985696911553284.plus.aac.p.m4a"
+      },
+      {
+        "title": "Mundo",
+        "albumName": "Mundo - Single",
+        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/34/a1/38/34a13831-bc49-e269-e8f6-084c0c5b2815/4895241431630_3000.jpg/500x500bb.jpg",
+        "artistName": "IV OF SPADES",
+        "genreNames": ["Original Pilipino Music"],
+        "durationInMillis": 349751,
+        "releaseDate": "2018-02-14",
+        "appleMusicUrl": "https://music.apple.com/us/album/mundo/1728833436?i=1728833440&uo=4",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/33/4b/5a/334b5a81-a684-f556-2c42-aa4f2e968bf7/mzaf_4537020252269535371.plus.aac.p.m4a"
+      },
+      {
+        "title": "Star Song",
+        "albumName": "Star Song - Single",
+        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9d/05/0c/9d050cc7-e6ec-db16-6add-ae9ca2df06d4/cover.jpg/500x500bb.jpg",
+        "artistName": "Rob Deniel",
+        "genreNames": ["Pop"],
+        "durationInMillis": 236923,
+        "releaseDate": "2026-01-30",
+        "appleMusicUrl": "https://music.apple.com/us/album/star-song/1870324611?i=1870324619&uo=4",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/46/2d/d1/462dd1f7-6942-d2d3-3597-6f192d600494/mzaf_15627225644579703375.plus.aac.p.m4a"
+      },
+      {
+        "title": "Last Night On Earth",
+        "albumName": "21st Century Breakdown (Deluxe Edition)",
+        "thumbnail": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/b8/36/d6/b836d655-7ef3-5c93-734e-fb77c4981308/mzi.opxridrf.jpg/500x500bb.jpg",
+        "artistName": "Green Day",
+        "genreNames": ["Alternative"],
+        "durationInMillis": 236533,
+        "releaseDate": "2009-05-15",
+        "appleMusicUrl": "https://music.apple.com/us/album/last-night-on-earth/315611219?i=315611375&uo=4",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/2f/ed/10/2fed102e-9258-299f-083b-c2484504ee30/mzaf_14450259569239720830.plus.aac.p.m4a"
       }
     ]
   },
