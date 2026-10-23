@@ -172,6 +172,7 @@
     "title": "Moments",
     "subtitle": "Snapshots from my everyday life — runs, coffee, strings, sunsets.",
     "images": [
+       { "url": "https://i.imgur.com/rFK6a6e.jpeg", "caption": "STUDENT NIGHT", "tag": "EVENT" },
       { "url": "https://i.imgur.com/LNB98YV.jpeg", "caption": "CLEAN UP DRIVE", "tag": "activity" },
       { "url": "https://i.imgur.com/JZmZugJ.jpeg", "caption": "Afternoon", "tag": "activity" },
       { "url": "https://i.imgur.com/HjwJ8he.jpeg", "caption": "Afternoon", "tag": "activity" },
