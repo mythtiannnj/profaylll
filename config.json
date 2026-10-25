@@ -166,61 +166,6 @@
       "totalRuns": 12,
       "bestPace": "5:42 /km",
       "longestRun": "8.2 km"
-    },
-    "runs": [
-      {
-        "date": "2026-10-25",
-        "time": "05:30 AM",
-        "location": "Burauen Municipal Plaza",
-        "kilometers": 5.2,
-        "pace": "6:10 /km",
-        "imageUrl": "https://i.imgur.com/Y0A2BvZ.jpeg",
-        "notes": "Cool morning, quiet streets. Felt strong the whole way."
-      },
-      {
-        "date": "2026-10-20",
-        "time": "05:15 AM",
-        "location": "Brgy. Libertad Loop",
-        "kilometers": 3.8,
-        "pace": "6:25 /km",
-        "imageUrl": "https://i.imgur.com/Ztx5h4Q.jpeg",
-        "notes": "Legs were heavy but pushed through."
-      },
-      {
-        "date": "2026-10-15",
-        "time": "05:45 AM",
-        "location": "EVSU Burauen Campus",
-        "kilometers": 4.0,
-        "pace": "6:05 /km",
-        "imageUrl": "https://i.imgur.com/H5EBKXY.jpeg",
-        "notes": "Ran with classmates. Good pace, good company."
-      },
-      {
-        "date": "2026-10-10",
-        "time": "06:00 AM",
-        "location": "Burauen to Julita Road",
-        "kilometers": 8.2,
-        "pace": "6:30 /km",
-        "imageUrl": "https://i.imgur.com/HjwJ8he.jpeg",
-        "notes": "Longest run so far. Legs screaming at the end but worth it."
-      },
-      {
-        "date": "2026-10-05",
-        "time": "05:20 AM",
-        "location": "Burauen Municipal Plaza",
-        "kilometers": 5.0,
-        "pace": "5:58 /km",
-        "imageUrl": "https://i.imgur.com/JZmZugJ.jpeg",
-        "notes": "Personal best pace. Everything clicked."
-      },
-      {
-        "date": "2026-09-30",
-        "time": "05:30 AM",
-        "location": "Brgy. Libertad Loop",
-        "kilometers": 3.5,
-        "pace": "6:40 /km",
-        "imageUrl": "https://i.imgur.com/LNB98YV.jpeg",
-        "notes": "First run back after a week off. Slow and steady."
       }
     ]
   },
