@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Running Log</title>
+  <meta name="description" content="Every kilometer tells a story — trails, roads, and sunrises." />
+  <meta name="theme-color" content="#070a12" />
+  <link rel="icon" href="/assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/themes.css" />
+  <link rel="stylesheet" href="/assets/css/ui.css" />
+  <style>
+    .page-head { text-align: center; margin-bottom: 2.5rem; }
+    .page-head h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+    .page-head p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ---- Stats row ---- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .stat-tile {
+      padding: 1.1rem 1.2rem;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      transition: all var(--transition);
+    }
+    .stat-tile:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34, 211, 238, 0.3);
+      box-shadow: var(--shadow-card), 0 0 30px -12px rgba(34, 211, 238, 0.4);
+    }
+    .stat-icon {
+      width: 40px; height: 40px;
+      flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      font-size: 1rem;
+    }
+    .stat-icon.cyan    { color: var(--accent-cyan);    background: rgba(34, 211, 238, 0.10);  border-color: rgba(34, 211, 238, 0.30); }
+    .stat-icon.purple  { color: var(--accent-purple);  background: rgba(167, 139, 250, 0.10); border-color: rgba(167, 139, 250, 0.30); }
+    .stat-icon.emerald { color: var(--accent-emerald); background: rgba(52, 211, 153, 0.10);  border-color: rgba(52, 211, 153, 0.30); }
+    .stat-icon.amber   { color: var(--accent-amber);   background: rgba(251, 191, 36, 0.10);  border-color: rgba(251, 191, 36, 0.30); }
+    .stat-body { flex: 1; min-width: 0; }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+    .stat-value {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    /* ---- Run card ---- */
+    .runs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .run-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 0;
+      transition: all var(--transition);
+    }
+    .run-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(34, 211, 238, 0.35);
+      box-shadow: var(--shadow-card), 0 0 30px -12px rgba(34, 211, 238, 0.4);
+    }
+
+    .run-thumb {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      background-color: #0d1422;
+      min-height: 180px;
+    }
+    .run-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, transparent 60%, rgba(7, 10, 18, 0.7) 100%);
+      pointer-events: none;
+    }
+    .run-dist-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      background: rgba(7, 10, 18, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(34, 211, 238, 0.4);
+      color: var(--accent-cyan);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      box-shadow: 0 0 16px -4px rgba(34, 211, 238, 0.6);
+      z-index: 2;
+    }
+    .run-dist-badge i { margin-right: 0.3rem; font-size: 0.65rem; }
+
+    .run-body {
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .run-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .run-location {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+    .run-location i {
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      margin-right: 0.3rem;
+    }
+    .run-date {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .run-date div:first-child { color: var(--accent-cyan); font-weight: 700; }
+
+    .run-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      padding: 0.7rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+    .run-meta span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .run-meta i { color: var(--accent-purple); font-size: 0.65rem; }
+    .run-meta b { color: var(--text); font-weight: 600; }
+
+    .run-notes {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    @media (max-width: 640px) {
+      .run-card { grid-template-columns: 1fr; }
+      .run-thumb { min-height: 160px; }
+      .run-thumb::after { background: linear-gradient(to top, rgba(7, 10, 18, 0.7) 0%, transparent 60%); }
+      .run-date { text-align: left; }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1.5rem;
+      border-radius: var(--radius-lg);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .empty-state i {
+      font-size: 2.5rem;
+      opacity: 0.4;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="ambient">
+    <div class="blob blob-cyan"></div>
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-pink"></div>
+  </div>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <span class="brand-mark"><i class="fas fa-person-running"></i></span>
+      <div class="brand-text">
+        <span data-cfg="profile.name">Chris</span>
+        <small>Running Log</small>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="theme-toggle">
+        <button data-theme="dark" class="active"><i class="fas fa-circle-half-stroke"></i> Dark</button>
+        <button data-theme="glass"><i class="fas fa-droplet"></i> Glass</button>
+      </div>
+      <button class="icon-btn hamburger" id="hamburger-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path class="menu-line top-line" d="M4 6h16"/>
+          <path class="menu-line middle-line" d="M4 12h16"/>
+          <path class="menu-line bottom-line" d="M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="brand">
+        <span class="brand-mark"><i class="fas fa-user"></i></span>
+        <div>
+          <h2 data-cfg="profile.name">Chris</h2>
+          <small>Personal</small>
+        </div>
+      </div>
+      <button class="icon-btn" id="drawer-close"><i class="fas fa-xmark"></i></button>
+    </div>
+    <div class="drawer-body">
+      <div class="drawer-section-label">Navigate</div>
+      <nav class="drawer-nav">
+        <a href="/">
+          <span class="nav-icon"><i class="fas fa-house"></i></span>
+          <span class="nav-label">Home <small>Welcome</small></span>
+        </a>
+        <a href="/profile">
+          <span class="nav-icon"><i class="fas fa-id-badge"></i></span>
+          <span class="nav-label">Profile <small>About me</small></span>
+        </a>
+        <a href="/music">
+          <span class="nav-icon"><i class="fas fa-music"></i></span>
+          <span class="nav-label">Music <small>On repeat</small></span>
+        </a>
+        <a href="/hobbies">
+          <span class="nav-icon"><i class="fas fa-heart"></i></span>
+          <span class="nav-label">Hobbies <small>What I love</small></span>
+        </a>
+        <a href="/running" class="active">
+          <span class="nav-icon"><i class="fas fa-person-running"></i></span>
+          <span class="nav-label">Running <small>KM log</small></span>
+        </a>
+        <a href="/education">
+          <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
+          <span class="nav-label">Education <small>School & program</small></span>
+        </a>
+        <a href="/contact">
+          <span class="nav-icon"><i class="fas fa-envelope"></i></span>
+          <span class="nav-label">Contact <small>Reach out</small></span>
+        </a>
+        <a href="/gallery">
+          <span class="nav-icon"><i class="fas fa-images"></i></span>
+          <span class="nav-label">Gallery <small>Moments</small></span>
+        </a>
+        <a href="/about">
+          <span class="nav-icon"><i class="fas fa-circle-info"></i></span>
+          <span class="nav-label">About Site <small>Info & purpose</small></span>
+        </a>
+      </nav>
+    </div>
+    <div class="drawer-footer"><span class="status-dot"></span> Online now</div>
+  </aside>
+
+  <div class="main-shell">
+    <div class="container" style="max-width:1000px;">
+      <header class="page-head animate-reveal">
+        <h1><span class="brand-gradient-text" id="run-title">Running Log</span></h1>
+        <p id="run-subtitle">Every kilometer tells a story.</p>
+      </header>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="stats-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Runs -->
+      <section class="runs-list" id="runs-list">
+        <div class="empty-state glass">
+          <i class="fas fa-person-running"></i>
+          Loading runs…
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          © <span id="year">2026</span>
+          <span data-cfg="profile.name">Chris</span>
+          · Made with <i class="fas fa-heart" style="color:var(--accent-pink)"></i>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/assets/js/theme.js"></script>
+  <script src="/assets/js/menu.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script>
+    (function () {
+      const $ = (id) => document.getElementById(id);
+
+      function esc(s) {
+        if (s == null) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      }
+
+      function formatDate(iso) {
+        if (!iso) return '—';
+        try {
+          return new Date(iso).toLocaleDateString('en-US', {
+            year: 'numeric', month: 'short', day: 'numeric'
+          });
+        } catch { return iso; }
+      }
+
+      async function init() {
+        let cfg;
+        try {
+          const r = await fetch('/api/config');
+          cfg = await r.json();
+        } catch (e) {
+          return;
+        }
+
+        const run = cfg.running;
+        if (!run) return;
+
+        if (run.title) $('run-title').textContent = run.title;
+        if (run.subtitle) $('run-subtitle').textContent = run.subtitle;
+
+        // Stats
+        const s = run.stats || {};
+        $('stats-grid').innerHTML = `
+          <div class="stat-tile glass animate-reveal">
+            <div class="stat-icon cyan"><i class="fas fa-route"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Total KM</div>
+              <div class="stat-value">${esc(s.totalKm ?? '—')}</div>
+            </div>
+          </div>
+          <div class="stat-tile glass animate-reveal" style="animation-delay:0.05s;">
+            <div class="stat-icon purple"><i class="fas fa-shoe-prints"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Total Runs</div>
+              <div class="stat-value">${esc(s.totalRuns ?? '—')}</div>
+            </div>
+          </div>
+          <div class="stat-tile glass animate-reveal" style="animation-delay:0.1s;">
+            <div class="stat-icon emerald"><i class="fas fa-gauge-high"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Best Pace</div>
+              <div class="stat-value">${esc(s.bestPace ?? '—')}</div>
+            </div>
+          </div>
+          <div class="stat-tile glass animate-reveal" style="animation-delay:0.15s;">
+            <div class="stat-icon amber"><i class="fas fa-trophy"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Longest Run</div>
+              <div class="stat-value">${esc(s.longestRun ?? '—')}</div>
+            </div>
+          </div>
+        `;
+
+        // Runs
+        const runs = run.runs || [];
+        if (!runs.length) {
+          $('runs-list').innerHTML = `<div class="empty-state glass"><i class="fas fa-person-running"></i>No runs logged yet.</div>`;
+          return;
+        }
+
+        $('runs-list').innerHTML = runs.map((r, i) => `
+          <article class="run-card glass animate-reveal" style="animation-delay:${i * 0.06}s;">
+            <div class="run-thumb" style="background-image:url('${esc(r.imageUrl || '')}');">
+              ${r.kilometers ? `<span class="run-dist-badge"><i class="fas fa-route"></i>${esc(r.kilometers)} km</span>` : ''}
+            </div>
+            <div class="run-body">
+              <div class="run-header">
+                <div class="run-location"><i class="fas fa-location-dot"></i>${esc(r.location || 'Unknown')}</div>
+                <div class="run-date">
+                  <div>${esc(formatDate(r.date))}</div>
+                  <div>${esc(r.time || '')}</div>
+                </div>
+              </div>
+              <div class="run-meta">
+                <span><i class="fas fa-road"></i> Distance: <b>${esc(r.kilometers)} km</b></span>
+                ${r.pace ? `<span><i class="fas fa-gauge-high"></i> Pace: <b>${esc(r.pace)}</b></span>` : ''}
+              </div>
+              ${r.notes ? `<p class="run-notes">"${esc(r.notes)}"</p>` : ''}
+            </div>
+          </article>
+        `).join('');
+      }
+
+      document.addEventListener('DOMContentLoaded', init);
+
+      const y = document.getElementById('year');
+      if (y) y.textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
