@@ -326,6 +326,7 @@ const pages = {
   '/contact':   'contact.html',
   '/about':    'about.html',
   '/music':    'music.html',
+   '/running':    'running.html',
   '/gallery':   'gallery.html',
 };
 
