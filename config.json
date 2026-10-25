@@ -162,10 +162,20 @@
     "title": "Running Log",
     "subtitle": "Every kilometer tells a story — trails, roads, and sunrises.",
     "stats": {
-      "totalKm": 42.5,
-      "totalRuns": 12,
-      "bestPace": "5:42 /km",
-      "longestRun": "8.2 km"
+      "totalKm": 5.2,
+      "totalRuns": 1,
+      "bestPace": "6:10 /km",
+      "longestRun": "5.2 km"
+    },
+    "runs": [
+      {
+        "date": "2026-10-25",
+        "time": "05:30 AM",
+        "location": "Burauen Municipal Plaza",
+        "kilometers": 5.2,
+        "pace": "6:10 /km",
+        "imageUrl": "https://i.imgur.com/Y0A2BvZ.jpeg",
+        "notes": "Cool morning, quiet streets. Felt strong the whole way."
       }
     ]
   },
